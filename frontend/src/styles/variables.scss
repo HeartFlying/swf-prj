@@ -1,0 +1,300 @@
+// ============================================
+// Ant Design 设计规范变量
+// ============================================
+
+// --------------------------------------------
+// 1. 主色调变量 (Functional Colors)
+// --------------------------------------------
+
+/// 主色 - 用于主要操作按钮、链接、高亮
+/// @type Color
+$ant-primary-color: #1890ff;
+
+/// 成功色 - 用于成功状态、成功提示
+/// @type Color
+$ant-success-color: #52c41a;
+
+/// 警告色 - 用于警告状态、警告提示
+/// @type Color
+$ant-warning-color: #faad14;
+
+/// 错误色 - 用于错误状态、错误提示、删除操作
+/// @type Color
+$ant-error-color: #f5222d;
+
+// --------------------------------------------
+// 2. 中性色变量 (Neutral Colors)
+// --------------------------------------------
+
+/// 标题文字色 - 用于页面标题、模块标题
+/// @type Color
+$ant-title-color: #262626;
+
+/// 正文文字色 - 用于普通段落文字
+/// @type Color
+$ant-text-color: #595959;
+
+/// 边框色 - 用于分割线、表单边框
+/// @type Color
+$ant-border-color: #d9d9d9;
+
+/// 背景色 - 用于页面背景、模块背景
+/// @type Color
+$ant-background-color: #f5f5f5;
+
+// --------------------------------------------
+// 3. 字体变量 (Typography - Font Sizes)
+// --------------------------------------------
+
+/// H1 标题字号 - 用于页面大标题
+/// @type Size
+$ant-font-size-h1: 38px;
+
+/// H2 标题字号 - 用于区块标题
+/// @type Size
+$ant-font-size-h2: 30px;
+
+/// H3 标题字号 - 用于小标题
+/// @type Size
+$ant-font-size-h3: 24px;
+
+/// H4 标题字号 - 用于卡片标题
+/// @type Size
+$ant-font-size-h4: 20px;
+
+/// 正文字号 - 用于普通文本
+/// @type Size
+$ant-font-size-body: 14px;
+
+// --------------------------------------------
+// 4. 字重变量 (Typography - Font Weights)
+// --------------------------------------------
+
+/// 常规字重
+/// @type Number
+$ant-font-weight-regular: 400;
+
+/// 中等字重
+/// @type Number
+$ant-font-weight-medium: 500;
+
+/// 半粗字重
+/// @type Number
+$ant-font-weight-semibold: 600;
+
+/// 粗体字重
+/// @type Number
+$ant-font-weight-bold: 700;
+
+// --------------------------------------------
+// 5. 间距变量 (Spacing)
+// --------------------------------------------
+
+/// 超小间距 - 用于紧凑布局
+/// @type Size
+$ant-spacing-xs: 4px;
+
+/// 小间距 - 用于组件内部间距
+/// @type Size
+$ant-spacing-sm: 8px;
+
+/// 中间距 - 用于默认间距
+/// @type Size
+$ant-spacing-md: 16px;
+
+/// 大间距 - 用于模块间距
+/// @type Size
+$ant-spacing-lg: 24px;
+
+/// 超大间距 - 用于区块间距
+/// @type Size
+$ant-spacing-xl: 32px;
+
+/// 超超大间距 - 用于页面间距
+/// @type Size
+$ant-spacing-xxl: 48px;
+
+// --------------------------------------------
+// 6. 圆角变量 (Border Radius)
+// --------------------------------------------
+
+/// 小圆角 - 用于标签、小按钮
+/// @type Size
+$ant-border-radius-sm: 4px;
+
+/// 默认圆角 - 用于按钮、输入框
+/// @type Size
+$ant-border-radius-base: 6px;
+
+/// 大圆角 - 用于卡片、模态框
+/// @type Size
+$ant-border-radius-lg: 12px;
+
+// --------------------------------------------
+// 7. 阴影变量 (Shadows)
+// --------------------------------------------
+
+/// 一级阴影 - 用于下拉菜单、气泡卡片
+/// @type Shadow
+$ant-shadow-1: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+/// 二级阴影 - 用于卡片、模态框
+/// @type Shadow
+$ant-shadow-2: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+/// 三级阴影 - 用于抽屉、对话框
+/// @type Shadow
+$ant-shadow-3: 0 8px 24px rgba(0, 0, 0, 0.15);
+
+// --------------------------------------------
+// 8. 过渡时间变量 (Transitions)
+// --------------------------------------------
+
+/// 默认过渡时间
+/// @type Time
+$ant-transition-duration: 0.3s;
+
+/// 快速过渡时间
+/// @type Time
+$ant-transition-fast: 0.2s;
+
+/// 慢速过渡时间
+/// @type Time
+$ant-transition-slow: 0.5s;
+
+// --------------------------------------------
+// 9. Z-Index 层级变量
+// --------------------------------------------
+
+/// 基础层级
+/// @type Number
+$ant-z-index-base: 1;
+
+/// 下拉层级
+/// @type Number
+$ant-z-index-dropdown: 10;
+
+/// 固定元素层级
+/// @type Number
+$ant-z-index-sticky: 100;
+
+/// 模态框层级
+/// @type Number
+$ant-z-index-modal: 1000;
+
+/// 消息提示层级
+/// @type Number
+$ant-z-index-message: 10000;
+
+// --------------------------------------------
+// 10. CSS 自定义属性导出 (CSS Variables)
+// --------------------------------------------
+
+:root {
+  // 主色调
+  --ant-primary-color: #{$ant-primary-color};
+  --ant-success-color: #{$ant-success-color};
+  --ant-warning-color: #{$ant-warning-color};
+  --ant-error-color: #{$ant-error-color};
+
+  // 中性色
+  --ant-title-color: #{$ant-title-color};
+  --ant-text-color: #{$ant-text-color};
+  --ant-border-color: #{$ant-border-color};
+  --ant-background-color: #{$ant-background-color};
+
+  // 字体大小
+  --ant-font-size-h1: #{$ant-font-size-h1};
+  --ant-font-size-h2: #{$ant-font-size-h2};
+  --ant-font-size-h3: #{$ant-font-size-h3};
+  --ant-font-size-h4: #{$ant-font-size-h4};
+  --ant-font-size-body: #{$ant-font-size-body};
+
+  // 字重
+  --ant-font-weight-regular: #{$ant-font-weight-regular};
+  --ant-font-weight-medium: #{$ant-font-weight-medium};
+  --ant-font-weight-semibold: #{$ant-font-weight-semibold};
+  --ant-font-weight-bold: #{$ant-font-weight-bold};
+
+  // 间距
+  --ant-spacing-xs: #{$ant-spacing-xs};
+  --ant-spacing-sm: #{$ant-spacing-sm};
+  --ant-spacing-md: #{$ant-spacing-md};
+  --ant-spacing-lg: #{$ant-spacing-lg};
+  --ant-spacing-xl: #{$ant-spacing-xl};
+  --ant-spacing-xxl: #{$ant-spacing-xxl};
+
+  // 圆角
+  --ant-border-radius-sm: #{$ant-border-radius-sm};
+  --ant-border-radius-base: #{$ant-border-radius-base};
+  --ant-border-radius-lg: #{$ant-border-radius-lg};
+
+  // 阴影
+  --ant-shadow-1: #{$ant-shadow-1};
+  --ant-shadow-2: #{$ant-shadow-2};
+  --ant-shadow-3: #{$ant-shadow-3};
+
+  // 过渡时间
+  --ant-transition-duration: #{$ant-transition-duration};
+  --ant-transition-fast: #{$ant-transition-fast};
+  --ant-transition-slow: #{$ant-transition-slow};
+
+  // Z-Index
+  --ant-z-index-base: #{$ant-z-index-base};
+  --ant-z-index-dropdown: #{$ant-z-index-dropdown};
+  --ant-z-index-sticky: #{$ant-z-index-sticky};
+  --ant-z-index-modal: #{$ant-z-index-modal};
+  --ant-z-index-message: #{$ant-z-index-message};
+}
+
+// --------------------------------------------
+// 9. JavaScript 导出对象 (用于测试)
+// --------------------------------------------
+
+:export {
+  ant-primary-color: $ant-primary-color;
+  ant-success-color: $ant-success-color;
+  ant-warning-color: $ant-warning-color;
+  ant-error-color: $ant-error-color;
+
+  ant-title-color: $ant-title-color;
+  ant-text-color: $ant-text-color;
+  ant-border-color: $ant-border-color;
+  ant-background-color: $ant-background-color;
+
+  ant-font-size-h1: $ant-font-size-h1;
+  ant-font-size-h2: $ant-font-size-h2;
+  ant-font-size-h3: $ant-font-size-h3;
+  ant-font-size-h4: $ant-font-size-h4;
+  ant-font-size-body: $ant-font-size-body;
+
+  ant-font-weight-regular: $ant-font-weight-regular;
+  ant-font-weight-medium: $ant-font-weight-medium;
+  ant-font-weight-semibold: $ant-font-weight-semibold;
+  ant-font-weight-bold: $ant-font-weight-bold;
+
+  ant-spacing-xs: $ant-spacing-xs;
+  ant-spacing-sm: $ant-spacing-sm;
+  ant-spacing-md: $ant-spacing-md;
+  ant-spacing-lg: $ant-spacing-lg;
+  ant-spacing-xl: $ant-spacing-xl;
+  ant-spacing-xxl: $ant-spacing-xxl;
+
+  ant-border-radius-sm: $ant-border-radius-sm;
+  ant-border-radius-base: $ant-border-radius-base;
+  ant-border-radius-lg: $ant-border-radius-lg;
+
+  ant-shadow-1: $ant-shadow-1;
+  ant-shadow-2: $ant-shadow-2;
+  ant-shadow-3: $ant-shadow-3;
+
+  ant-transition-duration: $ant-transition-duration;
+  ant-transition-fast: $ant-transition-fast;
+  ant-transition-slow: $ant-transition-slow;
+
+  ant-z-index-base: $ant-z-index-base;
+  ant-z-index-dropdown: $ant-z-index-dropdown;
+  ant-z-index-sticky: $ant-z-index-sticky;
+  ant-z-index-modal: $ant-z-index-modal;
+  ant-z-index-message: $ant-z-index-message;
+}

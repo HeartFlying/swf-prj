@@ -1,0 +1,559 @@
+// 主样式入口文件
+@use './variables.scss' as *;
+@use './element-plus.scss' as *;
+@use './animations.scss' as *;
+
+// 全局重置和基础样式
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+  min-height: 100vh;
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    sans-serif;
+  font-size: var(--ant-font-size-body);
+  line-height: 1.5;
+  color: var(--ant-text-color);
+  background: var(--ant-background-color);
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+// 应用容器 - 响应式设计
+.app-container {
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+// 页面容器
+.page-container {
+  width: 100%;
+  height: calc(100vh - 64px);
+  padding: var(--ant-spacing-lg);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+// 内容区域
+.content-area {
+  width: calc(100vw - 240px);
+  height: 100%;
+  margin-left: 240px;
+  transition:
+    width 0.3s ease,
+    margin-left 0.3s ease;
+
+  &.sidebar-collapsed {
+    width: calc(100vw - 64px);
+    margin-left: 64px;
+  }
+}
+
+// 工具类
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-xs {
+  gap: var(--ant-spacing-xs);
+}
+
+.gap-sm {
+  gap: var(--ant-spacing-sm);
+}
+
+.gap-md {
+  gap: var(--ant-spacing-md);
+}
+
+.gap-lg {
+  gap: var(--ant-spacing-lg);
+}
+
+.gap-xl {
+  gap: var(--ant-spacing-xl);
+}
+
+// 文字工具类
+.text-xs {
+  font-size: 12px;
+}
+
+.text-sm {
+  font-size: 13px;
+}
+
+.text-base {
+  font-size: var(--ant-font-size-body);
+}
+
+.text-lg {
+  font-size: 16px;
+}
+
+.text-xl {
+  font-size: 18px;
+}
+
+.text-2xl {
+  font-size: 20px;
+}
+
+.text-3xl {
+  font-size: 24px;
+}
+
+.text-4xl {
+  font-size: 32px;
+}
+
+.text-mono {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+}
+
+.font-regular {
+  font-weight: var(--ant-font-weight-regular);
+}
+
+.font-medium {
+  font-weight: var(--ant-font-weight-medium);
+}
+
+.font-semibold {
+  font-weight: var(--ant-font-weight-semibold);
+}
+
+.font-bold {
+  font-weight: var(--ant-font-weight-bold);
+}
+
+// 颜色工具类 - 使用 Ant Design 变量
+.text-primary {
+  color: var(--ant-primary-color);
+}
+
+.text-success {
+  color: var(--ant-success-color);
+}
+
+.text-warning {
+  color: var(--ant-warning-color);
+}
+
+.text-error {
+  color: var(--ant-error-color);
+}
+
+.text-title {
+  color: var(--ant-title-color);
+}
+
+.text-body {
+  color: var(--ant-text-color);
+}
+
+// 背景工具类
+.bg-primary {
+  background: var(--ant-primary-color);
+}
+
+.bg-success {
+  background: var(--ant-success-color);
+}
+
+.bg-warning {
+  background: var(--ant-warning-color);
+}
+
+.bg-error {
+  background: var(--ant-error-color);
+}
+
+.bg-page {
+  background: var(--ant-background-color);
+}
+
+// 间距工具类
+.p-xs {
+  padding: var(--ant-spacing-xs);
+}
+
+.p-sm {
+  padding: var(--ant-spacing-sm);
+}
+
+.p-md {
+  padding: var(--ant-spacing-md);
+}
+
+.p-lg {
+  padding: var(--ant-spacing-lg);
+}
+
+.p-xl {
+  padding: var(--ant-spacing-xl);
+}
+
+.m-xs {
+  margin: var(--ant-spacing-xs);
+}
+
+.m-sm {
+  margin: var(--ant-spacing-sm);
+}
+
+.m-md {
+  margin: var(--ant-spacing-md);
+}
+
+.m-lg {
+  margin: var(--ant-spacing-lg);
+}
+
+.m-xl {
+  margin: var(--ant-spacing-xl);
+}
+
+// 布局工具类
+.w-full {
+  width: 100%;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.fixed {
+  position: fixed;
+}
+
+// 溢出工具类
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.overflow-auto {
+  overflow: auto;
+}
+
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
+// 网格布局
+.grid {
+  display: grid;
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-cols-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.grid-cols-5 {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+// 状态指示器
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+
+  &.online {
+    background: var(--ant-success-color);
+    box-shadow: 0 0 8px var(--ant-success-color);
+  }
+
+  &.offline {
+    background: var(--ant-border-color);
+  }
+
+  &.busy {
+    background: var(--ant-warning-color);
+    box-shadow: 0 0 8px var(--ant-warning-color);
+  }
+
+  &.error {
+    background: var(--ant-error-color);
+    box-shadow: 0 0 8px var(--ant-error-color);
+  }
+}
+
+// 分割线
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--ant-border-color), transparent);
+  margin: var(--ant-spacing-md) 0;
+}
+
+.divider-vertical {
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--ant-border-color), transparent);
+  margin: 0 var(--ant-spacing-md);
+}
+
+// 徽章
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--ant-border-radius-sm);
+  font-size: 12px;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+
+  &.primary {
+    background: rgba(24, 144, 255, 0.1);
+    color: var(--ant-primary-color);
+    border: 1px solid rgba(24, 144, 255, 0.3);
+  }
+
+  &.success {
+    background: rgba(82, 196, 26, 0.1);
+    color: var(--ant-success-color);
+    border: 1px solid rgba(82, 196, 26, 0.3);
+  }
+
+  &.warning {
+    background: rgba(250, 173, 20, 0.1);
+    color: var(--ant-warning-color);
+    border: 1px solid rgba(250, 173, 20, 0.3);
+  }
+
+  &.error {
+    background: rgba(245, 34, 45, 0.1);
+    color: var(--ant-error-color);
+    border: 1px solid rgba(245, 34, 45, 0.3);
+  }
+}
+
+// 空状态
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--ant-spacing-xxl);
+  color: var(--ant-text-color);
+
+  .icon {
+    font-size: 48px;
+    margin-bottom: var(--ant-spacing-md);
+    opacity: 0.5;
+  }
+
+  .text {
+    font-size: var(--ant-font-size-body);
+  }
+}
+
+// 加载状态
+.loading-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ant-spacing-sm);
+  padding: var(--ant-spacing-lg);
+  color: var(--ant-primary-color);
+
+  .spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--ant-border-color);
+    border-top-color: var(--ant-primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+// 隐藏类
+.hidden {
+  display: none !important;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+// 截断文本
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// 多行截断
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// 圆角工具类
+.rounded-sm {
+  border-radius: var(--ant-border-radius-sm);
+}
+
+.rounded-base {
+  border-radius: var(--ant-border-radius-base);
+}
+
+.rounded-lg {
+  border-radius: var(--ant-border-radius-lg);
+}
+
+// 阴影工具类
+.shadow-1 {
+  box-shadow: var(--ant-shadow-1);
+}
+
+.shadow-2 {
+  box-shadow: var(--ant-shadow-2);
+}
+
+.shadow-3 {
+  box-shadow: var(--ant-shadow-3);
+}
+
+// 卡片样式
+.card {
+  background: #fff;
+  border-radius: var(--ant-border-radius-lg);
+  box-shadow: var(--ant-shadow-1);
+  padding: var(--ant-spacing-lg);
+}
+
+// 按钮基础样式
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--ant-spacing-sm) var(--ant-spacing-md);
+  border-radius: var(--ant-border-radius-base);
+  font-size: var(--ant-font-size-body);
+  font-weight: var(--ant-font-weight-regular);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+
+  &.btn-primary {
+    background: var(--ant-primary-color);
+    color: #fff;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  &.btn-default {
+    background: #fff;
+    border-color: var(--ant-border-color);
+    color: var(--ant-text-color);
+
+    &:hover {
+      border-color: var(--ant-primary-color);
+      color: var(--ant-primary-color);
+    }
+  }
+}
+
+// 响应式断点
+// 移动端: < 768px
+@media (max-width: 767px) {
+  .page-container {
+    padding: 12px;
+  }
+
+  .content-area {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+// 平板: 768px - 991px
+@media (min-width: 768px) and (max-width: 991px) {
+  .page-container {
+    padding: 16px;
+  }
+
+  .content-area {
+    width: calc(100vw - 200px);
+    margin-left: 200px;
+  }
+}
+
+// 桌面: 992px - 1399px
+@media (min-width: 992px) and (max-width: 1399px) {
+  .content-area {
+    width: calc(100vw - 240px);
+    margin-left: 240px;
+  }
+}
+
+// 大屏: >= 1400px
+@media (min-width: 1400px) {
+  .content-area {
+    width: calc(100vw - 260px);
+    margin-left: 260px;
+  }
+}

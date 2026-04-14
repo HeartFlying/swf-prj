@@ -1,0 +1,286 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Coding Agent Stats",
+    "description": "研发中心 Coding Agent 绩效统计平台",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": [
+          "authentication"
+        ],
+        "summary": "Login",
+        "description": "Login endpoint to get access and refresh tokens.\n\nAccepts JSON body with username and password.\n\nArgs:\n    request: JSON body with username and password.\n    db: Database session.\n    auth_svc: Auth service module.\n\nReturns:\n    Token response with access and refresh tokens.\n\nRaises:\n    HTTPException: If authentication fails.",
+        "operationId": "login_api_v1_auth_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenRefreshResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "LoginRequest": {
+        "properties": {
+          "username": {
+            "type": "string",
+            "title": "Username",
+            "description": "用户名"
+          },
+          "password": {
+            "type": "string",
+            "title": "Password",
+            "description": "密码"
+          }
+        },
+        "type": "object",
+        "required": [
+          "username",
+          "password"
+        ],
+        "title": "LoginRequest",
+        "description": "Login request schema."
+      },
+      "TokenRefreshResponse": {
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "title": "Accesstoken",
+            "description": "访问令牌"
+          },
+          "refreshToken": {
+            "type": "string",
+            "title": "Refreshtoken",
+            "description": "刷新令牌"
+          },
+          "tokenType": {
+            "type": "string",
+            "title": "Tokentype",
+            "description": "令牌类型",
+            "default": "bearer"
+          },
+          "expiresIn": {
+            "type": "integer",
+            "title": "Expiresin",
+            "description": "过期时间（秒）",
+            "default": 3600
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserResponse",
+            "description": "用户信息"
+          }
+        },
+        "type": "object",
+        "required": [
+          "accessToken",
+          "refreshToken",
+          "user"
+        ],
+        "title": "TokenRefreshResponse",
+        "description": "Token refresh response schema - matches frontend expected format."
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "UserResponse": {
+        "properties": {
+          "username": {
+            "type": "string",
+            "title": "Username",
+            "description": "用户名"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email",
+            "description": "邮箱"
+          },
+          "department": {
+            "type": "string",
+            "title": "Department",
+            "description": "部门"
+          },
+          "id": {
+            "type": "integer",
+            "title": "Id",
+            "description": "用户ID"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "description": "是否激活"
+          },
+          "role_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Role Id",
+            "description": "角色ID"
+          },
+          "role": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RoleResponse"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "角色信息"
+          }
+        },
+        "type": "object",
+        "required": [
+          "username",
+          "email",
+          "department",
+          "id",
+          "is_active"
+        ],
+        "title": "UserResponse",
+        "description": "User response schema."
+      },
+      "RoleResponse": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id",
+            "description": "角色ID"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "角色名称"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "角色描述"
+          },
+          "permissions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Permissions",
+            "description": "权限列表"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "RoleResponse",
+        "description": "Role response schema."
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "scopes": {},
+            "tokenUrl": "/api/v1/auth/login"
+          }
+        }
+      },
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

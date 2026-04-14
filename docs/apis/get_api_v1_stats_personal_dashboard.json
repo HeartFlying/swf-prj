@@ -1,0 +1,334 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Coding Agent Stats",
+    "description": "研发中心 Coding Agent 绩效统计平台",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/stats/personal/dashboard": {
+      "get": {
+        "tags": [
+          "personal-stats"
+        ],
+        "summary": "获取个人仪表板统计",
+        "description": "获取用户仪表板的综合统计数据，包括代码统计汇总、Token使用汇总和Bug统计汇总。默认统计最近30天的数据。",
+        "operationId": "get_personal_dashboard_api_v1_stats_personal_dashboard_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "exclusiveMinimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "User ID (optional, defaults to current user)",
+              "examples": [
+                1
+              ],
+              "title": "User Id"
+            },
+            "description": "User ID (optional, defaults to current user)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取个人仪表板数据",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_PersonalDashboardResponse_"
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "user_id": 1,
+                    "username": "zhangsan",
+                    "code_summary": {
+                      "total_commits": 42,
+                      "lines_added": 1250,
+                      "lines_deleted": 320
+                    },
+                    "token_summary": {
+                      "total_tokens": 15000
+                    },
+                    "bug_summary": {
+                      "total_bugs": 5,
+                      "resolved_bugs": 3,
+                      "critical_bugs": 1
+                    },
+                    "period_days": 30,
+                    "start_date": "2026-03-01",
+                    "end_date": "2026-03-31"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": [
+                    {
+                      "loc": [
+                        "query",
+                        "user_id"
+                      ],
+                      "msg": "ensure this value is greater than 0",
+                      "type": "value_error.number.not_gt"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "WeeklyTrend": {
+        "properties": {
+          "dates": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Dates",
+            "description": "日期列表"
+          },
+          "commits": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Commits",
+            "description": "每日提交数列表"
+          },
+          "tokens": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Tokens",
+            "description": "每日Token使用量列表"
+          }
+        },
+        "type": "object",
+        "title": "WeeklyTrend",
+        "description": "Schema for weekly trend data."
+      },
+      "PersonalDashboardResponse": {
+        "properties": {
+          "todayStats": {
+            "$ref": "#/components/schemas/TodayStats",
+            "description": "今日统计数据"
+          },
+          "weeklyTrend": {
+            "$ref": "#/components/schemas/WeeklyTrend",
+            "description": "周趋势数据"
+          },
+          "languageStats": {
+            "items": {
+              "$ref": "#/components/schemas/LanguageStat"
+            },
+            "type": "array",
+            "title": "Languagestats",
+            "description": "语言分布统计"
+          },
+          "heatmapData": {
+            "items": {
+              "$ref": "#/components/schemas/HeatmapDataPoint"
+            },
+            "type": "array",
+            "title": "Heatmapdata",
+            "description": "热力图数据"
+          },
+          "ranking": {
+            "$ref": "#/components/schemas/RankingInfo",
+            "description": "排行榜信息"
+          }
+        },
+        "type": "object",
+        "title": "PersonalDashboardResponse",
+        "description": "Schema for personal dashboard statistics response.\n\nMatches frontend expected structure in PersonalDashboard type."
+      },
+      "TodayStats": {
+        "properties": {
+          "commits": {
+            "type": "integer",
+            "title": "Commits",
+            "description": "今日提交数",
+            "default": 0
+          },
+          "additions": {
+            "type": "integer",
+            "title": "Additions",
+            "description": "今日新增代码行数",
+            "default": 0
+          },
+          "deletions": {
+            "type": "integer",
+            "title": "Deletions",
+            "description": "今日删除代码行数",
+            "default": 0
+          },
+          "tokens": {
+            "type": "integer",
+            "title": "Tokens",
+            "description": "今日Token使用量",
+            "default": 0
+          },
+          "sessions": {
+            "type": "integer",
+            "title": "Sessions",
+            "description": "今日编码时长(小时)",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "title": "TodayStats",
+        "description": "Schema for today's statistics."
+      },
+      "ApiResponse_PersonalDashboardResponse_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "description": "HTTP status code or custom code",
+            "default": 200
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Response message",
+            "default": "success"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PersonalDashboardResponse"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Response data"
+          }
+        },
+        "type": "object",
+        "title": "ApiResponse[PersonalDashboardResponse]"
+      },
+      "LanguageStat": {
+        "properties": {
+          "language": {
+            "type": "string",
+            "title": "Language",
+            "description": "编程语言"
+          },
+          "lines": {
+            "type": "integer",
+            "title": "Lines",
+            "description": "代码行数",
+            "default": 0
+          },
+          "percentage": {
+            "type": "number",
+            "title": "Percentage",
+            "description": "占比百分比",
+            "default": 0.0
+          }
+        },
+        "type": "object",
+        "required": [
+          "language"
+        ],
+        "title": "LanguageStat",
+        "description": "Schema for language statistics."
+      },
+      "HeatmapDataPoint": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "title": "Date",
+            "description": "日期 (YYYY-MM-DD格式)"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count",
+            "description": "活动计数（提交数、Token使用量等）"
+          },
+          "level": {
+            "type": "integer",
+            "title": "Level",
+            "description": "活动等级 (0-4, 0=无活动, 4=高活动)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "date",
+          "count",
+          "level"
+        ],
+        "title": "HeatmapDataPoint",
+        "description": "Schema for a single heatmap data point.\n\nRepresents activity data for a specific date in the heatmap.\nSimilar to GitHub contribution graph data format."
+      },
+      "RankingInfo": {
+        "properties": {
+          "commits": {
+            "type": "integer",
+            "title": "Commits",
+            "description": "当前用户提交数",
+            "default": 0
+          },
+          "totalUsers": {
+            "type": "integer",
+            "title": "Totalusers",
+            "description": "总用户数",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "title": "RankingInfo",
+        "description": "Schema for ranking information."
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "scopes": {},
+            "tokenUrl": "/api/v1/auth/login"
+          }
+        }
+      },
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

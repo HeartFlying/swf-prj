@@ -1,0 +1,169 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Coding Agent Stats",
+    "description": "研发中心 Coding Agent 绩效统计平台",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/sync/tasks/{task_id}/trigger": {
+      "post": {
+        "tags": [
+          "sync"
+        ],
+        "summary": "触发同步任务",
+        "description": "根据任务ID触发已存在的同步任务执行。根据任务的source_type调用对应的Celery任务。需要管理员权限。",
+        "operationId": "trigger_sync_task_api_v1_sync_tasks__task_id__trigger_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Task Id"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "同步任务已触发",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_SyncTaskCreateData_"
+                },
+                "example": {
+                  "code": 202,
+                  "message": "Sync task triggered successfully.",
+                  "data": {
+                    "task_id": 123,
+                    "source": "gitlab",
+                    "status": "running"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - admin permission required"
+          },
+          "404": {
+            "description": "Task not found"
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": [
+                    {
+                      "loc": [
+                        "path",
+                        "task_id"
+                      ],
+                      "msg": "ensure this value is greater than 0",
+                      "type": "value_error.number.not_gt"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error - unsupported source type"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApiResponse_SyncTaskCreateData_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "description": "HTTP status code or custom code",
+            "default": 200
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Response message",
+            "default": "success"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SyncTaskCreateData"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Response data"
+          }
+        },
+        "type": "object",
+        "title": "ApiResponse[SyncTaskCreateData]"
+      },
+      "SyncTaskCreateData": {
+        "properties": {
+          "task_id": {
+            "type": "integer",
+            "title": "Task Id",
+            "description": "任务ID"
+          },
+          "source": {
+            "type": "string",
+            "title": "Source",
+            "description": "同步来源"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "running",
+              "completed",
+              "failed"
+            ],
+            "title": "Status",
+            "description": "任务状态"
+          }
+        },
+        "type": "object",
+        "required": [
+          "task_id",
+          "source",
+          "status"
+        ],
+        "title": "SyncTaskCreateData",
+        "description": "Data for sync task creation response."
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "scopes": {},
+            "tokenUrl": "/api/v1/auth/login"
+          }
+        }
+      },
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

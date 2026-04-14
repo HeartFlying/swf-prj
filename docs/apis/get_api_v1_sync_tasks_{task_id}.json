@@ -1,0 +1,270 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Coding Agent Stats",
+    "description": "研发中心 Coding Agent 绩效统计平台",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/sync/tasks/{task_id}": {
+      "get": {
+        "tags": [
+          "sync"
+        ],
+        "summary": "获取同步任务详情",
+        "description": "获取指定同步任务的详细信息，包括任务状态、处理记录数、错误信息等。需要管理员权限。",
+        "operationId": "get_sync_task_api_v1_sync_tasks__task_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Task Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取任务详情",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_SyncTaskDetailData_"
+                },
+                "example": {
+                  "code": 200,
+                  "message": "Sync task retrieved successfully",
+                  "data": {
+                    "id": 123,
+                    "task_type": "incremental_sync",
+                    "source_type": "gitlab",
+                    "status": "completed",
+                    "project_id": 1,
+                    "started_at": "2026-03-31T10:00:00",
+                    "completed_at": "2026-03-31T10:05:30",
+                    "records_processed": 150,
+                    "records_failed": 0,
+                    "created_at": "2026-03-31T09:55:00"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - admin permission required"
+          },
+          "404": {
+            "description": "Task not found"
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": [
+                    {
+                      "loc": [
+                        "path",
+                        "task_id"
+                      ],
+                      "msg": "ensure this value is greater than 0",
+                      "type": "value_error.number.not_gt"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApiResponse_SyncTaskDetailData_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "description": "HTTP status code or custom code",
+            "default": 200
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Response message",
+            "default": "success"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SyncTaskDetailData"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Response data"
+          }
+        },
+        "type": "object",
+        "title": "ApiResponse[SyncTaskDetailData]"
+      },
+      "SyncTaskDetailData": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "taskType": {
+            "type": "string",
+            "title": "Tasktype"
+          },
+          "sourceType": {
+            "type": "string",
+            "title": "Sourcetype"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "running",
+              "completed",
+              "failed"
+            ],
+            "title": "Status"
+          },
+          "projectId": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Projectid"
+          },
+          "parentTaskId": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parenttaskid"
+          },
+          "startedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Startedat"
+          },
+          "completedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Completedat"
+          },
+          "recordsProcessed": {
+            "type": "integer",
+            "title": "Recordsprocessed",
+            "default": 0
+          },
+          "recordsFailed": {
+            "type": "integer",
+            "title": "Recordsfailed",
+            "default": 0
+          },
+          "errorMessage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Errormessage"
+          },
+          "createdAt": {
+            "type": "string",
+            "title": "Createdat"
+          },
+          "userId": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Userid"
+          },
+          "progress": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Progress"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "taskType",
+          "sourceType",
+          "status",
+          "createdAt"
+        ],
+        "title": "SyncTaskDetailData",
+        "description": "Data for sync task detail response with camelCase field names for frontend compatibility."
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "scopes": {},
+            "tokenUrl": "/api/v1/auth/login"
+          }
+        }
+      },
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

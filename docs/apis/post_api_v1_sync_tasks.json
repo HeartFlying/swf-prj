@@ -1,0 +1,221 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Coding Agent Stats",
+    "description": "研发中心 Coding Agent 绩效统计平台",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/sync/tasks": {
+      "post": {
+        "tags": [
+          "sync"
+        ],
+        "summary": "创建同步任务",
+        "description": "创建一个新的同步任务，支持指定来源类型、项目ID列表和日期范围。任务将异步执行。需要管理员权限。",
+        "operationId": "create_sync_task_api_v1_sync_tasks_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncTaskCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "同步任务已创建并排队",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_SyncTaskCreateData_"
+                },
+                "example": {
+                  "code": 202,
+                  "message": "Sync task created and queued for execution.",
+                  "data": {
+                    "task_id": 123,
+                    "source": "gitlab",
+                    "status": "pending"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - admin permission required"
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": [
+                    {
+                      "loc": [
+                        "body",
+                        "source_type"
+                      ],
+                      "msg": "field required",
+                      "type": "value_error.missing"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApiResponse_SyncTaskCreateData_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "description": "HTTP status code or custom code",
+            "default": 200
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Response message",
+            "default": "success"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SyncTaskCreateData"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Response data"
+          }
+        },
+        "type": "object",
+        "title": "ApiResponse[SyncTaskCreateData]"
+      },
+      "SyncTaskCreateData": {
+        "properties": {
+          "task_id": {
+            "type": "integer",
+            "title": "Task Id",
+            "description": "任务ID"
+          },
+          "source": {
+            "type": "string",
+            "title": "Source",
+            "description": "同步来源"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "running",
+              "completed",
+              "failed"
+            ],
+            "title": "Status",
+            "description": "任务状态"
+          }
+        },
+        "type": "object",
+        "required": [
+          "task_id",
+          "source",
+          "status"
+        ],
+        "title": "SyncTaskCreateData",
+        "description": "Data for sync task creation response."
+      },
+      "SyncTaskCreate": {
+        "properties": {
+          "source_type": {
+            "type": "string",
+            "title": "Source Type",
+            "description": "同步来源类型"
+          },
+          "project_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Project Ids",
+            "description": "项目ID列表（为空则同步所有）"
+          },
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date",
+            "description": "开始日期"
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date",
+            "description": "结束日期"
+          }
+        },
+        "type": "object",
+        "required": [
+          "source_type"
+        ],
+        "title": "SyncTaskCreate",
+        "description": "Schema for creating a sync task."
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "scopes": {},
+            "tokenUrl": "/api/v1/auth/login"
+          }
+        }
+      },
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

@@ -1,0 +1,684 @@
+// ============================================
+// Element Plus 主题配置文件
+// 使用 Ant Design 设计规范变量覆盖默认主题
+// ============================================
+
+@use 'sass:color';
+@use './variables.scss' as *;
+
+// --------------------------------------------
+// 1. 颜色变量映射 (Colors)
+// --------------------------------------------
+
+$colors: (
+  'primary': (
+    'base': $ant-primary-color,
+  ),
+  'success': (
+    'base': $ant-success-color,
+  ),
+  'warning': (
+    'base': $ant-warning-color,
+  ),
+  'danger': (
+    'base': $ant-error-color,
+  ),
+  'error': (
+    'base': $ant-error-color,
+  ),
+  'info': (
+    'base': $ant-text-color,
+  ),
+);
+
+// --------------------------------------------
+// 2. 圆角变量映射 (Border Radius)
+// --------------------------------------------
+
+$border-radius: (
+  'base': $ant-border-radius-base,
+  'small': $ant-border-radius-sm,
+  'round': 20px,
+  'circle': 100%,
+);
+
+// --------------------------------------------
+// 3. 边框颜色映射 (Border Color)
+// --------------------------------------------
+
+$border-color: (
+  '': $ant-border-color,
+  'light': #e8e8e8,
+  'lighter': #f0f0f0,
+  'extra-light': #f5f5f5,
+  'dark': #bfbfbf,
+);
+
+// --------------------------------------------
+// 4. 填充颜色映射 (Fill Color)
+// --------------------------------------------
+
+$fill-color: (
+  '': $ant-background-color,
+  'light': #fafafa,
+  'lighter': #f5f5f5,
+  'extra-light': #fafafa,
+  'dark': #e8e8e8,
+  'darker': #d9d9d9,
+  'blank': #ffffff,
+);
+
+// --------------------------------------------
+// 5. 文字颜色映射 (Text Color)
+// --------------------------------------------
+
+$text-color: (
+  'primary': $ant-title-color,
+  'regular': $ant-text-color,
+  'secondary': #8c8c8c,
+  'placeholder': #bfbfbf,
+  'disabled': #bfbfbf,
+);
+
+// --------------------------------------------
+// 6. 阴影变量映射 (Box Shadow)
+// --------------------------------------------
+
+$box-shadow: (
+  '': $ant-shadow-1,
+  'light': 0 2px 12px 0 rgba(0, 0, 0, 0.1),
+  'lighter': 0 2px 4px rgba(0, 0, 0, 0.12),
+  'dark': $ant-shadow-2,
+  'extra-dark': $ant-shadow-3,
+);
+
+// --------------------------------------------
+// 7. 字体大小映射 (Font Size)
+// --------------------------------------------
+
+$font-size: (
+  'extra-large': $ant-font-size-h4,
+  'large': 18px,
+  'medium': 16px,
+  'base': $ant-font-size-body,
+  'small': 13px,
+  'extra-small': 12px,
+);
+
+// --------------------------------------------
+// 8. 间距映射 (Spacing)
+// --------------------------------------------
+
+$spacing: (
+  'extra-large': $ant-spacing-xl,
+  'large': $ant-spacing-lg,
+  'medium': $ant-spacing-md,
+  'small': $ant-spacing-sm,
+  'extra-small': $ant-spacing-xs,
+);
+
+// --------------------------------------------
+// 9. 组件特定变量覆盖
+// --------------------------------------------
+
+// Button
+$button: (
+  'font-weight': $ant-font-weight-regular,
+  'border-radius': $ant-border-radius-base,
+  'padding-vertical': 8px,
+  'padding-horizontal': 16px,
+);
+
+// Input
+$input: (
+  'border-radius': $ant-border-radius-base,
+  'height': 32px,
+);
+
+// Card
+$card: (
+  'border-radius': $ant-border-radius-lg,
+  'padding': $ant-spacing-lg,
+);
+
+// Table
+$table: (
+  'header-bg-color': #fafafa,
+  'row-hover-bg-color': #e6f7ff,
+);
+
+// --------------------------------------------
+// 10. 导出 CSS 自定义属性
+// --------------------------------------------
+
+:root {
+  // Element Plus 颜色变量
+  --el-color-primary: #{$ant-primary-color};
+  --el-color-success: #{$ant-success-color};
+  --el-color-warning: #{$ant-warning-color};
+  --el-color-danger: #{$ant-error-color};
+  --el-color-error: #{$ant-error-color};
+  --el-color-info: #{$ant-text-color};
+
+  // 文字颜色
+  --el-text-color-primary: #{$ant-title-color};
+  --el-text-color-regular: #{$ant-text-color};
+  --el-text-color-secondary: #8c8c8c;
+  --el-text-color-placeholder: #bfbfbf;
+  --el-text-color-disabled: #bfbfbf;
+
+  // 边框颜色
+  --el-border-color: #{$ant-border-color};
+  --el-border-color-light: #e8e8e8;
+  --el-border-color-lighter: #f0f0f0;
+  --el-border-color-extra-light: #f5f5f5;
+
+  // 填充颜色
+  --el-fill-color: #{$ant-background-color};
+  --el-fill-color-light: #fafafa;
+  --el-fill-color-lighter: #f5f5f5;
+  --el-fill-color-extra-light: #fafafa;
+  --el-fill-color-dark: #e8e8e8;
+  --el-fill-color-darker: #d9d9d9;
+  --el-fill-color-blank: #ffffff;
+
+  // 背景颜色
+  --el-bg-color: #ffffff;
+  --el-bg-color-page: #{$ant-background-color};
+  --el-bg-color-overlay: #ffffff;
+
+  // 圆角
+  --el-border-radius-base: #{$ant-border-radius-base};
+  --el-border-radius-small: #{$ant-border-radius-sm};
+  --el-border-radius-round: 20px;
+  --el-border-radius-circle: 100%;
+
+  // 阴影
+  --el-box-shadow: #{$ant-shadow-1};
+  --el-box-shadow-light: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  --el-box-shadow-lighter: 0 2px 4px rgba(0, 0, 0, 0.12);
+  --el-box-shadow-dark: #{$ant-shadow-2};
+
+  // 字体大小
+  --el-font-size-extra-large: #{$ant-font-size-h4};
+  --el-font-size-large: 18px;
+  --el-font-size-medium: 16px;
+  --el-font-size-base: #{$ant-font-size-body};
+  --el-font-size-small: 13px;
+  --el-font-size-extra-small: 12px;
+
+  // 间距
+  --el-spacing-extra-large: #{$ant-spacing-xl};
+  --el-spacing-large: #{$ant-spacing-lg};
+  --el-spacing-medium: #{$ant-spacing-md};
+  --el-spacing-small: #{$ant-spacing-sm};
+  --el-spacing-extra-small: #{$ant-spacing-xs};
+
+  // 字体粗细
+  --el-font-weight-primary: #{$ant-font-weight-regular};
+  --el-font-weight-secondary: #{$ant-font-weight-medium};
+
+  // 过渡
+  --el-transition-duration: 0.3s;
+  --el-transition-duration-fast: 0.2s;
+}
+
+// --------------------------------------------
+// 11. 组件样式覆盖
+// --------------------------------------------
+
+// 按钮样式
+.el-button {
+  font-weight: $ant-font-weight-regular;
+  border-radius: $ant-border-radius-base;
+
+  &--primary {
+    --el-button-bg-color: #{$ant-primary-color};
+    --el-button-border-color: #{$ant-primary-color};
+    --el-button-hover-bg-color: #{color.scale($ant-primary-color, $lightness: 10%)};
+    --el-button-hover-border-color: #{color.scale($ant-primary-color, $lightness: 10%)};
+  }
+
+  &--success {
+    --el-button-bg-color: #{$ant-success-color};
+    --el-button-border-color: #{$ant-success-color};
+  }
+
+  &--warning {
+    --el-button-bg-color: #{$ant-warning-color};
+    --el-button-border-color: #{$ant-warning-color};
+  }
+
+  &--danger {
+    --el-button-bg-color: #{$ant-error-color};
+    --el-button-border-color: #{$ant-error-color};
+  }
+}
+
+// 输入框样式
+.el-input {
+  &__wrapper {
+    border-radius: $ant-border-radius-base;
+  }
+
+  &__inner {
+    font-size: $ant-font-size-body;
+  }
+}
+
+// 表单样式
+.el-form-item {
+  &__label {
+    color: $ant-title-color;
+    font-weight: $ant-font-weight-regular;
+  }
+}
+
+// 卡片样式
+.el-card {
+  border-radius: $ant-border-radius-lg;
+
+  &__header {
+    padding: $ant-spacing-md $ant-spacing-lg;
+    border-bottom: 1px solid $ant-border-color;
+  }
+
+  &__body {
+    padding: $ant-spacing-lg;
+  }
+}
+
+// 表格样式
+.el-table {
+  th.el-table__cell {
+    background-color: #fafafa;
+    color: $ant-title-color;
+    font-weight: $ant-font-weight-medium;
+  }
+
+  .el-table__row:hover > td.el-table__cell {
+    background-color: #e6f7ff;
+  }
+}
+
+// 分页样式
+.el-pagination {
+  .btn-prev,
+  .btn-next,
+  .number {
+    border-radius: $ant-border-radius-base;
+  }
+
+  .number.is-active {
+    background-color: $ant-primary-color;
+    color: #ffffff;
+  }
+}
+
+// 标签样式
+.el-tag {
+  border-radius: $ant-border-radius-sm;
+
+  &--primary {
+    --el-tag-bg-color: rgba(24, 144, 255, 0.1);
+    --el-tag-border-color: rgba(24, 144, 255, 0.3);
+    --el-tag-text-color: #{$ant-primary-color};
+  }
+
+  &--success {
+    --el-tag-bg-color: rgba(82, 196, 26, 0.1);
+    --el-tag-border-color: rgba(82, 196, 26, 0.3);
+    --el-tag-text-color: #{$ant-success-color};
+  }
+
+  &--warning {
+    --el-tag-bg-color: rgba(250, 173, 20, 0.1);
+    --el-tag-border-color: rgba(250, 173, 20, 0.3);
+    --el-tag-text-color: #{$ant-warning-color};
+  }
+
+  &--danger {
+    --el-tag-bg-color: rgba(245, 34, 45, 0.1);
+    --el-tag-border-color: rgba(245, 34, 45, 0.3);
+    --el-tag-text-color: #{$ant-error-color};
+  }
+}
+
+// 对话框样式
+.el-dialog {
+  border-radius: $ant-border-radius-lg;
+
+  &__header {
+    padding: $ant-spacing-md $ant-spacing-lg;
+    border-bottom: 1px solid $ant-border-color;
+    margin-right: 0;
+  }
+
+  &__title {
+    color: $ant-title-color;
+    font-weight: $ant-font-weight-medium;
+  }
+
+  &__body {
+    padding: $ant-spacing-lg;
+  }
+
+  &__footer {
+    padding: $ant-spacing-sm $ant-spacing-lg $ant-spacing-lg;
+    border-top: none;
+  }
+}
+
+// 下拉菜单样式
+.el-dropdown-menu {
+  border-radius: $ant-border-radius-base;
+  box-shadow: $ant-shadow-1;
+}
+
+// 消息提示样式
+.el-message {
+  border-radius: $ant-border-radius-base;
+  box-shadow: $ant-shadow-2;
+
+  &--success {
+    --el-message-bg-color: rgba(82, 196, 26, 0.1);
+    --el-message-border-color: rgba(82, 196, 26, 0.3);
+    --el-message-text-color: #{$ant-success-color};
+  }
+
+  &--warning {
+    --el-message-bg-color: rgba(250, 173, 20, 0.1);
+    --el-message-border-color: rgba(250, 173, 20, 0.3);
+    --el-message-text-color: #{$ant-warning-color};
+  }
+
+  &--error {
+    --el-message-bg-color: rgba(245, 34, 45, 0.1);
+    --el-message-border-color: rgba(245, 34, 45, 0.3);
+    --el-message-text-color: #{$ant-error-color};
+  }
+}
+
+// 通知样式
+.el-notification {
+  border-radius: $ant-border-radius-lg;
+  box-shadow: $ant-shadow-2;
+}
+
+// 选择器样式
+.el-select {
+  .el-input__wrapper {
+    border-radius: $ant-border-radius-base;
+  }
+}
+
+// 日期选择器样式
+.el-date-editor {
+  .el-input__wrapper {
+    border-radius: $ant-border-radius-base;
+  }
+}
+
+// 树形控件样式
+.el-tree {
+  --el-tree-node-hover-bg-color: #e6f7ff;
+
+  .el-tree-node__content {
+    border-radius: $ant-border-radius-sm;
+  }
+}
+
+// 菜单样式
+.el-menu {
+  --el-menu-hover-bg-color: #e6f7ff;
+  --el-menu-active-color: #{$ant-primary-color};
+
+  .el-menu-item.is-active {
+    color: $ant-primary-color;
+    background-color: #e6f7ff;
+  }
+}
+
+// 面包屑样式
+.el-breadcrumb {
+  &__item {
+    font-size: $ant-font-size-body;
+
+    &:last-child .el-breadcrumb__inner {
+      color: $ant-text-color;
+    }
+  }
+
+  &__separator {
+    color: $ant-border-color;
+  }
+}
+
+// 步骤条样式
+.el-steps {
+  .el-step__head.is-success {
+    color: $ant-success-color;
+    border-color: $ant-success-color;
+  }
+
+  .el-step__head.is-process {
+    color: $ant-primary-color;
+    border-color: $ant-primary-color;
+  }
+}
+
+// 进度条样式
+.el-progress {
+  .el-progress-bar__outer {
+    border-radius: 100px;
+  }
+
+  .el-progress-bar__inner {
+    border-radius: 100px;
+  }
+
+  &.is-success .el-progress-bar__inner {
+    background-color: $ant-success-color;
+  }
+
+  &.is-warning .el-progress-bar__inner {
+    background-color: $ant-warning-color;
+  }
+}
+
+// 开关样式
+.el-switch {
+  &.is-checked .el-switch__core {
+    background-color: $ant-primary-color;
+    border-color: $ant-primary-color;
+  }
+}
+
+// 滑块样式
+.el-slider {
+  &__bar {
+    background-color: $ant-primary-color;
+  }
+
+  &__button {
+    border-color: $ant-primary-color;
+  }
+}
+
+// 上传组件样式
+.el-upload {
+  &-list__item:hover {
+    background-color: #e6f7ff;
+  }
+}
+
+// 徽章样式
+.el-badge {
+  &__content {
+    border-radius: 10px;
+
+    &--primary {
+      background-color: $ant-primary-color;
+    }
+
+    &--success {
+      background-color: $ant-success-color;
+    }
+
+    &--warning {
+      background-color: $ant-warning-color;
+    }
+
+    &--danger {
+      background-color: $ant-error-color;
+    }
+  }
+}
+
+// 时间线样式
+.el-timeline {
+  &-item__node {
+    &--primary {
+      background-color: $ant-primary-color;
+    }
+
+    &--success {
+      background-color: $ant-success-color;
+    }
+
+    &--warning {
+      background-color: $ant-warning-color;
+    }
+
+    &--danger {
+      background-color: $ant-error-color;
+    }
+  }
+}
+
+// 描述列表样式
+.el-descriptions {
+  &__title {
+    color: $ant-title-color;
+    font-weight: $ant-font-weight-medium;
+    font-size: $ant-font-size-h4;
+  }
+
+  &__label {
+    color: $ant-text-color;
+  }
+
+  &__content {
+    color: $ant-title-color;
+  }
+}
+
+// 统计数值样式
+.el-statistic {
+  &__head {
+    color: $ant-text-color;
+    font-size: $ant-font-size-body;
+  }
+
+  &__content {
+    color: $ant-title-color;
+    font-size: 24px;
+    font-weight: $ant-font-weight-medium;
+  }
+}
+
+// 结果页样式
+.el-result {
+  &__icon {
+    .el-result__icon--success {
+      color: $ant-success-color;
+    }
+
+    .el-result__icon--warning {
+      color: $ant-warning-color;
+    }
+
+    .el-result__icon--error {
+      color: $ant-error-color;
+    }
+
+    .el-result__icon--info {
+      color: $ant-primary-color;
+    }
+  }
+
+  &__title {
+    color: $ant-title-color;
+    font-size: $ant-font-size-h4;
+  }
+
+  &__subtitle {
+    color: $ant-text-color;
+    font-size: $ant-font-size-body;
+  }
+}
+
+// 空状态样式
+.el-empty {
+  &__description {
+    color: $ant-text-color;
+  }
+}
+
+// 图片样式
+.el-image {
+  &__error {
+    background-color: $ant-background-color;
+    color: $ant-text-color;
+  }
+}
+
+// 回到顶部样式
+.el-backtop {
+  --el-backtop-bg-color: #ffffff;
+  --el-backtop-text-color: $ant-primary-color;
+  --el-backtop-hover-bg-color: #f5f5f5;
+  box-shadow: $ant-shadow-2;
+}
+
+// 加载遮罩样式
+.el-loading-mask {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+// 滚动条样式
+.el-scrollbar {
+  &__bar {
+    opacity: 0.3;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+}
+
+// --------------------------------------------
+// 12. 响应式适配
+// --------------------------------------------
+
+@media (max-width: 767px) {
+  :root {
+    --el-font-size-base: 12px;
+    --el-border-radius-base: 4px;
+  }
+
+  .el-dialog {
+    --el-dialog-width: 90% !important;
+    margin-top: 10vh !important;
+  }
+
+  .el-message-box {
+    width: 90% !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .el-dialog {
+    --el-dialog-width: 80% !important;
+  }
+}

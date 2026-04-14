@@ -1,0 +1,267 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Coding Agent Stats",
+    "description": "研发中心 Coding Agent 绩效统计平台",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/stats/global/heatmap": {
+      "get": {
+        "tags": [
+          "global-stats"
+        ],
+        "summary": "获取全局热力图数据",
+        "description": "获取系统整体活跃度热力图数据，用于展示全局提交活动趋势。支持按用户筛选和指定日期范围。默认统计最近30天。",
+        "operationId": "get_global_heatmap_api_v1_stats_global_heatmap_get",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "exclusiveMinimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional user ID to filter heatmap data",
+              "examples": [
+                1
+              ],
+              "title": "User Id"
+            },
+            "description": "Optional user ID to filter heatmap data"
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Start date for heatmap period (YYYY-MM-DD format)",
+              "title": "Start Date"
+            },
+            "description": "Start date for heatmap period (YYYY-MM-DD format)"
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "End date for heatmap period (YYYY-MM-DD format)",
+              "title": "End Date"
+            },
+            "description": "End date for heatmap period (YYYY-MM-DD format)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取热力图数据",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_HeatmapResponse_"
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "user_id": 0,
+                    "data": [
+                      {
+                        "date": "2026-03-01",
+                        "count": 15,
+                        "level": 2
+                      },
+                      {
+                        "date": "2026-03-02",
+                        "count": 25,
+                        "level": 3
+                      },
+                      {
+                        "date": "2026-03-03",
+                        "count": 8,
+                        "level": 1
+                      }
+                    ],
+                    "total_days": 30,
+                    "start_date": "2026-03-01",
+                    "end_date": "2026-03-30"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": 404,
+                  "message": "User with ID 999 not found"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": [
+                    {
+                      "loc": [
+                        "query",
+                        "start_date"
+                      ],
+                      "msg": "invalid date format",
+                      "type": "value_error.date"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HeatmapResponse": {
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "title": "User Id",
+            "description": "用户ID"
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/HeatmapDataPoint"
+            },
+            "type": "array",
+            "title": "Data",
+            "description": "热力图数据点列表"
+          },
+          "total_days": {
+            "type": "integer",
+            "title": "Total Days",
+            "description": "统计天数",
+            "default": 30
+          },
+          "start_date": {
+            "type": "string",
+            "title": "Start Date",
+            "description": "开始日期 (YYYY-MM-DD格式)"
+          },
+          "end_date": {
+            "type": "string",
+            "title": "End Date",
+            "description": "结束日期 (YYYY-MM-DD格式)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "user_id",
+          "start_date",
+          "end_date"
+        ],
+        "title": "HeatmapResponse",
+        "description": "Schema for heatmap data response.\n\nReturns user activity data formatted for heatmap visualization,\nsimilar to GitHub's contribution graph."
+      },
+      "HeatmapDataPoint": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "title": "Date",
+            "description": "日期 (YYYY-MM-DD格式)"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count",
+            "description": "活动计数（提交数、Token使用量等）"
+          },
+          "level": {
+            "type": "integer",
+            "title": "Level",
+            "description": "活动等级 (0-4, 0=无活动, 4=高活动)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "date",
+          "count",
+          "level"
+        ],
+        "title": "HeatmapDataPoint",
+        "description": "Schema for a single heatmap data point.\n\nRepresents activity data for a specific date in the heatmap.\nSimilar to GitHub contribution graph data format."
+      },
+      "ApiResponse_HeatmapResponse_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "description": "HTTP status code or custom code",
+            "default": 200
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Response message",
+            "default": "success"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/HeatmapResponse"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Response data"
+          }
+        },
+        "type": "object",
+        "title": "ApiResponse[HeatmapResponse]"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "scopes": {},
+            "tokenUrl": "/api/v1/auth/login"
+          }
+        }
+      },
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

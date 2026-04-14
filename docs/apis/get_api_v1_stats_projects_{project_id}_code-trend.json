@@ -1,0 +1,216 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Coding Agent Stats",
+    "description": "研发中心 Coding Agent 绩效统计平台",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/stats/projects/{project_id}/code-trend": {
+      "get": {
+        "tags": [
+          "project-stats"
+        ],
+        "summary": "获取项目代码趋势",
+        "description": "获取指定项目在日期范围内的代码行数趋势数据，包括每日新增、删除和累计代码行数。默认统计最近30天。",
+        "operationId": "get_project_code_trend_api_v1_stats_projects__project_id__code_trend_get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Start date (YYYY-MM-DD format)",
+              "title": "Start Date"
+            },
+            "description": "Start date (YYYY-MM-DD format)"
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "End date (YYYY-MM-DD format)",
+              "title": "End Date"
+            },
+            "description": "End date (YYYY-MM-DD format)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取代码趋势",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_CodeTrendResponse_"
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "dates": [
+                      "2026-03-01",
+                      "2026-03-02",
+                      "2026-03-03"
+                    ],
+                    "total_lines": [
+                      100000,
+                      101200,
+                      102500
+                    ],
+                    "additions": [
+                      1200,
+                      1500,
+                      1800
+                    ],
+                    "deletions": [
+                      300,
+                      200,
+                      500
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Project not found"
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": [
+                    {
+                      "loc": [
+                        "query",
+                        "start_date"
+                      ],
+                      "msg": "invalid date format",
+                      "type": "value_error.date"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CodeTrendResponse": {
+        "properties": {
+          "dates": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Dates",
+            "description": "日期列表"
+          },
+          "total_lines": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Total Lines",
+            "description": "累计代码总行数列表"
+          },
+          "additions": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Additions",
+            "description": "每日新增代码行数列表"
+          },
+          "deletions": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Deletions",
+            "description": "每日删除代码行数列表"
+          }
+        },
+        "type": "object",
+        "title": "CodeTrendResponse",
+        "description": "Schema for code trend response.\n\nProvides daily code line statistics including additions, deletions,\nand cumulative total lines for code trend visualization."
+      },
+      "ApiResponse_CodeTrendResponse_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "description": "HTTP status code or custom code",
+            "default": 200
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Response message",
+            "default": "success"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodeTrendResponse"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Response data"
+          }
+        },
+        "type": "object",
+        "title": "ApiResponse[CodeTrendResponse]"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "scopes": {},
+            "tokenUrl": "/api/v1/auth/login"
+          }
+        }
+      },
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
