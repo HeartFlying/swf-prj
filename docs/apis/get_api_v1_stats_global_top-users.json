@@ -1,0 +1,187 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Coding Agent Stats",
+    "description": "研发中心 Coding Agent 绩效统计平台",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/stats/global/top-users": {
+      "get": {
+        "tags": [
+          "global-stats"
+        ],
+        "summary": "获取Token使用量排行用户",
+        "description": "获取Token使用量最高的用户排行榜，包括用户名、部门、Token使用量和提交次数。可指定返回数量限制，默认20个。",
+        "operationId": "get_top_users_api_v1_stats_global_top_users_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Maximum number of results to return (1-100)",
+              "examples": [
+                20
+              ],
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "Maximum number of results to return (1-100)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取用户排行",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_list_TopUserResponse__"
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": [
+                    {
+                      "user_id": 1,
+                      "username": "zhangsan",
+                      "department": "研发部",
+                      "token_count": 50000,
+                      "commit_count": 150
+                    },
+                    {
+                      "user_id": 2,
+                      "username": "lisi",
+                      "department": "测试部",
+                      "token_count": 35000,
+                      "commit_count": 120
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error - limit must be between 1 and 100",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": [
+                    {
+                      "loc": [
+                        "query",
+                        "limit"
+                      ],
+                      "msg": "ensure this value is less than or equal to 100",
+                      "type": "value_error.number.not_le"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TopUserResponse": {
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "title": "User Id",
+            "description": "用户ID"
+          },
+          "username": {
+            "type": "string",
+            "title": "Username",
+            "description": "用户名"
+          },
+          "department": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Department",
+            "description": "部门"
+          },
+          "token_count": {
+            "type": "integer",
+            "title": "Token Count",
+            "description": "Token使用量",
+            "default": 0
+          },
+          "commit_count": {
+            "type": "integer",
+            "title": "Commit Count",
+            "description": "提交次数",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "required": [
+          "user_id",
+          "username"
+        ],
+        "title": "TopUserResponse",
+        "description": "Schema for top user response."
+      },
+      "ApiResponse_list_TopUserResponse__": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "description": "HTTP status code or custom code",
+            "default": 200
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Response message",
+            "default": "success"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/TopUserResponse"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data",
+            "description": "Response data"
+          }
+        },
+        "type": "object",
+        "title": "ApiResponse[list[TopUserResponse]]"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "scopes": {},
+            "tokenUrl": "/api/v1/auth/login"
+          }
+        }
+      },
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

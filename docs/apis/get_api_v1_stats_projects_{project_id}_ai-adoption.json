@@ -1,0 +1,185 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Coding Agent Stats",
+    "description": "研发中心 Coding Agent 绩效统计平台",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/stats/projects/{project_id}/ai-adoption": {
+      "get": {
+        "tags": [
+          "project-stats"
+        ],
+        "summary": "获取项目AI采纳率趋势",
+        "description": "获取指定项目的AI采纳率趋势数据，包括每日AI建议数、接受数和采纳率。可指定统计天数，默认30天，范围7-365天。",
+        "operationId": "get_project_ai_adoption_api_v1_stats_projects__project_id__ai_adoption_get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "days",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 365,
+              "minimum": 7,
+              "description": "Number of days to analyze (7-365)",
+              "examples": [
+                30
+              ],
+              "default": 30,
+              "title": "Days"
+            },
+            "description": "Number of days to analyze (7-365)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取AI采纳率趋势",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_list_AIAdoptionResponse__"
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": [
+                    {
+                      "date": "2026-03-01",
+                      "adoption_rate": 85.5,
+                      "ai_suggestions": 20,
+                      "accepted_suggestions": 17
+                    },
+                    {
+                      "date": "2026-03-02",
+                      "adoption_rate": 90.0,
+                      "ai_suggestions": 10,
+                      "accepted_suggestions": 9
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Project not found"
+          },
+          "422": {
+            "description": "Validation error - days must be between 7 and 365",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": [
+                    {
+                      "loc": [
+                        "query",
+                        "days"
+                      ],
+                      "msg": "ensure this value is greater than or equal to 7",
+                      "type": "value_error.number.not_ge"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AIAdoptionResponse": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "title": "Date",
+            "description": "日期"
+          },
+          "adoption_rate": {
+            "type": "number",
+            "title": "Adoption Rate",
+            "description": "采纳率(0-100)",
+            "default": 0.0
+          },
+          "ai_suggestions": {
+            "type": "integer",
+            "title": "Ai Suggestions",
+            "description": "AI建议数",
+            "default": 0
+          },
+          "accepted_suggestions": {
+            "type": "integer",
+            "title": "Accepted Suggestions",
+            "description": "接受的建议数",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "required": [
+          "date"
+        ],
+        "title": "AIAdoptionResponse",
+        "description": "Schema for AI adoption rate response."
+      },
+      "ApiResponse_list_AIAdoptionResponse__": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "description": "HTTP status code or custom code",
+            "default": 200
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Response message",
+            "default": "success"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/AIAdoptionResponse"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data",
+            "description": "Response data"
+          }
+        },
+        "type": "object",
+        "title": "ApiResponse[list[AIAdoptionResponse]]"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "scopes": {},
+            "tokenUrl": "/api/v1/auth/login"
+          }
+        }
+      },
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

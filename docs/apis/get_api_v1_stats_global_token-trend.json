@@ -1,0 +1,178 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Coding Agent Stats",
+    "description": "研发中心 Coding Agent 绩效统计平台",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/stats/global/token-trend": {
+      "get": {
+        "tags": [
+          "global-stats"
+        ],
+        "summary": "获取全局Token使用趋势",
+        "description": "获取全系统的Token使用趋势数据，包括每日Token使用量。可指定日期范围，默认统计最近30天。",
+        "operationId": "get_token_trend_api_v1_stats_global_token_trend_get",
+        "parameters": [
+          {
+            "name": "start_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Start date for trend period (YYYY-MM-DD format)",
+              "title": "Start Date"
+            },
+            "description": "Start date for trend period (YYYY-MM-DD format)"
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "End date for trend period (YYYY-MM-DD format)",
+              "title": "End Date"
+            },
+            "description": "End date for trend period (YYYY-MM-DD format)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取Token趋势",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_TokenTrendResponse_"
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "dates": [
+                      "2026-03-01",
+                      "2026-03-02",
+                      "2026-03-03"
+                    ],
+                    "values": [
+                      15000,
+                      18000,
+                      16500
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": [
+                    {
+                      "loc": [
+                        "query",
+                        "start_date"
+                      ],
+                      "msg": "invalid date format",
+                      "type": "value_error.date"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApiResponse_TokenTrendResponse_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "description": "HTTP status code or custom code",
+            "default": 200
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Response message",
+            "default": "success"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TokenTrendResponse"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Response data"
+          }
+        },
+        "type": "object",
+        "title": "ApiResponse[TokenTrendResponse]"
+      },
+      "TokenTrendResponse": {
+        "properties": {
+          "dates": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Dates",
+            "description": "日期列表"
+          },
+          "values": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Values",
+            "description": "Token使用量列表"
+          }
+        },
+        "type": "object",
+        "title": "TokenTrendResponse",
+        "description": "Schema for token usage trend response."
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "scopes": {},
+            "tokenUrl": "/api/v1/auth/login"
+          }
+        }
+      },
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

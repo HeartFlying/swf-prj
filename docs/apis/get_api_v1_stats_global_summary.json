@@ -1,0 +1,180 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Coding Agent Stats",
+    "description": "研发中心 Coding Agent 绩效统计平台",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/stats/global/summary": {
+      "get": {
+        "tags": [
+          "global-stats"
+        ],
+        "summary": "获取全局统计摘要",
+        "description": "获取系统整体统计信息，包括总用户数、总项目数、总提交数、总Token使用量、总Bug数和今日活跃用户数。",
+        "operationId": "get_global_summary_api_v1_stats_global_summary_get",
+        "parameters": [
+          {
+            "name": "days",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 365,
+              "minimum": 1,
+              "description": "Number of days to analyze (1-365)",
+              "examples": [
+                30
+              ],
+              "default": 30,
+              "title": "Days"
+            },
+            "description": "Number of days to analyze (1-365)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取全局统计摘要",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_GlobalSummaryResponse_"
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "total_users": 100,
+                    "total_projects": 20,
+                    "total_commits": 5000,
+                    "total_tokens": 1000000,
+                    "total_bugs": 150,
+                    "active_users_today": 45,
+                    "period_days": 30
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error - days must be between 1 and 365",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": [
+                    {
+                      "loc": [
+                        "query",
+                        "days"
+                      ],
+                      "msg": "ensure this value is less than or equal to 365",
+                      "type": "value_error.number.not_le"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GlobalSummaryResponse": {
+        "properties": {
+          "total_users": {
+            "type": "integer",
+            "title": "Total Users",
+            "description": "总用户数",
+            "default": 0
+          },
+          "total_projects": {
+            "type": "integer",
+            "title": "Total Projects",
+            "description": "总项目数",
+            "default": 0
+          },
+          "total_commits": {
+            "type": "integer",
+            "title": "Total Commits",
+            "description": "总提交数",
+            "default": 0
+          },
+          "total_tokens": {
+            "type": "integer",
+            "title": "Total Tokens",
+            "description": "总Token使用量",
+            "default": 0
+          },
+          "total_bugs": {
+            "type": "integer",
+            "title": "Total Bugs",
+            "description": "总Bug数",
+            "default": 0
+          },
+          "active_users_today": {
+            "type": "integer",
+            "title": "Active Users Today",
+            "description": "今日活跃用户数",
+            "default": 0
+          },
+          "period_days": {
+            "type": "integer",
+            "title": "Period Days",
+            "description": "统计周期天数",
+            "default": 30
+          }
+        },
+        "type": "object",
+        "title": "GlobalSummaryResponse",
+        "description": "Schema for global summary statistics response."
+      },
+      "ApiResponse_GlobalSummaryResponse_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "description": "HTTP status code or custom code",
+            "default": 200
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Response message",
+            "default": "success"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/GlobalSummaryResponse"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Response data"
+          }
+        },
+        "type": "object",
+        "title": "ApiResponse[GlobalSummaryResponse]"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "scopes": {},
+            "tokenUrl": "/api/v1/auth/login"
+          }
+        }
+      },
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

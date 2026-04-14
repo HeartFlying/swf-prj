@@ -1,0 +1,170 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Coding Agent Stats",
+    "description": "研发中心 Coding Agent 绩效统计平台",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/stats/global/activity-trend": {
+      "get": {
+        "tags": [
+          "global-stats"
+        ],
+        "summary": "获取全局活动趋势",
+        "description": "获取全系统的活动趋势数据，包括每日活跃用户数和总提交数。可指定统计天数，默认30天，范围7-365天。",
+        "operationId": "get_activity_trend_api_v1_stats_global_activity_trend_get",
+        "parameters": [
+          {
+            "name": "days",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 365,
+              "minimum": 7,
+              "description": "Number of days to analyze (7-365)",
+              "examples": [
+                30
+              ],
+              "default": 30,
+              "title": "Days"
+            },
+            "description": "Number of days to analyze (7-365)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取活动趋势",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_ActivityTrendResponse_"
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "dates": [
+                      "2026-03-01",
+                      "2026-03-02",
+                      "2026-03-03"
+                    ],
+                    "active_users": [
+                      15,
+                      18,
+                      16
+                    ],
+                    "total_commits": [
+                      45,
+                      52,
+                      48
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error - days must be between 7 and 365",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": [
+                    {
+                      "loc": [
+                        "query",
+                        "days"
+                      ],
+                      "msg": "ensure this value is greater than or equal to 7",
+                      "type": "value_error.number.not_ge"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ActivityTrendResponse": {
+        "properties": {
+          "dates": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Dates",
+            "description": "日期列表"
+          },
+          "active_users": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Active Users",
+            "description": "活跃用户数列表"
+          },
+          "total_commits": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Total Commits",
+            "description": "提交数列表"
+          }
+        },
+        "type": "object",
+        "title": "ActivityTrendResponse",
+        "description": "Schema for activity trend response."
+      },
+      "ApiResponse_ActivityTrendResponse_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "description": "HTTP status code or custom code",
+            "default": 200
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Response message",
+            "default": "success"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ActivityTrendResponse"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Response data"
+          }
+        },
+        "type": "object",
+        "title": "ApiResponse[ActivityTrendResponse]"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "scopes": {},
+            "tokenUrl": "/api/v1/auth/login"
+          }
+        }
+      },
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

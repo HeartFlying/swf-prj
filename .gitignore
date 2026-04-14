@@ -205,3 +205,61 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Claude Code
+.claude/
+
+# Git worktrees
+.worktrees/
+
+# Backend logs
+backend/logs/
+
+# Test results
+backend/test-results/
+test-results/
+
+# E2E test auth cache
+frontend/e2e/.auth/
+
+# Local settings
+.claude/settings.local.json
+
+# Vite cache
+frontend/.vite/
+
+# Screenshots and images
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.svg
+!frontend/public/**/*.svg
+!frontend/src/assets/**/*.svg
+
+# Test database files (SQLite)
+backend/test_*.db
+backend/test_*.db-journal
+
+# Frontend build output
+frontend/dist/
+
+# Frontend auto-generated type files
+frontend/auto-imports.d.ts
+frontend/components.d.ts
+
+# Python specific (backend)
+backend/__pycache__/
+backend/**/*.py[codz]
+backend/**/*$py.class
+backend/.mypy_cache/
+backend/.ruff_cache/
+backend/.pytest_cache/
+
+# Node modules (frontend)
+frontend/node_modules/
+
+# BMad process files (not for version control)
+_bmad/
+artifacts/

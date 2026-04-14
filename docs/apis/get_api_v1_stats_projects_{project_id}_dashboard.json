@@ -1,0 +1,329 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Coding Agent Stats",
+    "description": "研发中心 Coding Agent 绩效统计平台",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/stats/projects/{project_id}/dashboard": {
+      "get": {
+        "tags": [
+          "project-stats"
+        ],
+        "summary": "获取项目仪表板统计",
+        "description": "获取项目仪表板的综合统计数据，包括项目概览（提交数、Token使用量、成员数、Bug数）、成员活跃度排行、Bug趋势摘要。可指定统计天数，默认30天。",
+        "operationId": "get_project_dashboard_api_v1_stats_projects__project_id__dashboard_get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "days",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 365,
+              "minimum": 7,
+              "description": "Number of days for statistics (7-365)",
+              "examples": [
+                30
+              ],
+              "default": 30,
+              "title": "Days"
+            },
+            "description": "Number of days for statistics (7-365)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取项目仪表板数据",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_ProjectDashboardResponse_"
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "project_id": 1,
+                    "project_name": "示例项目",
+                    "overview": {
+                      "total_commits": 150,
+                      "total_tokens": 50000,
+                      "active_members": 8,
+                      "bug_count": 12
+                    },
+                    "top_contributors": [
+                      {
+                        "user_id": 1,
+                        "username": "zhangsan",
+                        "commit_count": 45
+                      },
+                      {
+                        "user_id": 2,
+                        "username": "lisi",
+                        "commit_count": 32
+                      }
+                    ],
+                    "bug_summary": {
+                      "total_bugs": 12,
+                      "resolved_bugs": 8,
+                      "trend_direction": "decreasing"
+                    },
+                    "period_days": 30,
+                    "start_date": "2026-03-01",
+                    "end_date": "2026-03-31"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Project not found"
+          },
+          "422": {
+            "description": "Validation error - days must be between 7 and 365",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": [
+                    {
+                      "loc": [
+                        "query",
+                        "days"
+                      ],
+                      "msg": "ensure this value is less than or equal to 365",
+                      "type": "value_error.number.not_le"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApiResponse_ProjectDashboardResponse_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "description": "HTTP status code or custom code",
+            "default": 200
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Response message",
+            "default": "success"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProjectDashboardResponse"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Response data"
+          }
+        },
+        "type": "object",
+        "title": "ApiResponse[ProjectDashboardResponse]"
+      },
+      "CommitTrend": {
+        "properties": {
+          "dates": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Dates",
+            "description": "日期列表"
+          },
+          "commits": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Commits",
+            "description": "每日提交数列表"
+          }
+        },
+        "type": "object",
+        "title": "CommitTrend",
+        "description": "Schema for commit trend."
+      },
+      "LanguageDistribution": {
+        "properties": {
+          "language": {
+            "type": "string",
+            "title": "Language",
+            "description": "编程语言"
+          },
+          "percentage": {
+            "type": "number",
+            "title": "Percentage",
+            "description": "占比百分比"
+          }
+        },
+        "type": "object",
+        "required": [
+          "language",
+          "percentage"
+        ],
+        "title": "LanguageDistribution",
+        "description": "Schema for language distribution."
+      },
+      "MemberStat": {
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "title": "User Id",
+            "description": "用户ID"
+          },
+          "username": {
+            "type": "string",
+            "title": "Username",
+            "description": "用户名"
+          },
+          "commits": {
+            "type": "integer",
+            "title": "Commits",
+            "description": "提交数",
+            "default": 0
+          },
+          "additions": {
+            "type": "integer",
+            "title": "Additions",
+            "description": "新增代码行数",
+            "default": 0
+          },
+          "deletions": {
+            "type": "integer",
+            "title": "Deletions",
+            "description": "删除代码行数",
+            "default": 0
+          },
+          "tokens": {
+            "type": "integer",
+            "title": "Tokens",
+            "description": "Token使用量",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "required": [
+          "user_id",
+          "username"
+        ],
+        "title": "MemberStat",
+        "description": "Schema for member statistics."
+      },
+      "ProjectDashboardResponse": {
+        "properties": {
+          "project_id": {
+            "type": "integer",
+            "title": "Project Id",
+            "description": "项目ID"
+          },
+          "project_name": {
+            "type": "string",
+            "title": "Project Name",
+            "description": "项目名称"
+          },
+          "total_stats": {
+            "$ref": "#/components/schemas/TotalStats",
+            "description": "项目总体统计"
+          },
+          "member_stats": {
+            "items": {
+              "$ref": "#/components/schemas/MemberStat"
+            },
+            "type": "array",
+            "title": "Member Stats",
+            "description": "成员统计列表"
+          },
+          "language_distribution": {
+            "items": {
+              "$ref": "#/components/schemas/LanguageDistribution"
+            },
+            "type": "array",
+            "title": "Language Distribution",
+            "description": "语言分布"
+          },
+          "commit_trend": {
+            "$ref": "#/components/schemas/CommitTrend",
+            "description": "提交趋势"
+          }
+        },
+        "type": "object",
+        "required": [
+          "project_id",
+          "project_name"
+        ],
+        "title": "ProjectDashboardResponse",
+        "description": "Schema for project dashboard statistics response.\n\nMatches frontend expected structure in ProjectDashboard type."
+      },
+      "TotalStats": {
+        "properties": {
+          "commits": {
+            "type": "integer",
+            "title": "Commits",
+            "description": "总提交数",
+            "default": 0
+          },
+          "contributors": {
+            "type": "integer",
+            "title": "Contributors",
+            "description": "贡献者数量",
+            "default": 0
+          },
+          "lines_of_code": {
+            "type": "integer",
+            "title": "Lines Of Code",
+            "description": "代码行数",
+            "default": 0
+          },
+          "pull_requests": {
+            "type": "integer",
+            "title": "Pull Requests",
+            "description": "PR数量",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "title": "TotalStats",
+        "description": "Schema for project total statistics."
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "scopes": {},
+            "tokenUrl": "/api/v1/auth/login"
+          }
+        }
+      },
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

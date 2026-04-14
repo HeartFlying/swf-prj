@@ -1,0 +1,223 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Coding Agent Stats",
+    "description": "研发中心 Coding Agent 绩效统计平台",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/stats/projects/{project_id}/commit-rank": {
+      "get": {
+        "tags": [
+          "project-stats"
+        ],
+        "summary": "获取项目提交数排行",
+        "description": "获取项目成员在指定日期范围内的提交数排行榜。可指定返回数量限制和日期范围，默认统计最近30天。",
+        "operationId": "get_project_commit_rank_api_v1_stats_projects__project_id__commit_rank_get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Maximum number of results to return (1-100)",
+              "examples": [
+                20
+              ],
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "Maximum number of results to return (1-100)"
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Start date (YYYY-MM-DD format)",
+              "title": "Start Date"
+            },
+            "description": "Start date (YYYY-MM-DD format)"
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "End date (YYYY-MM-DD format)",
+              "title": "End Date"
+            },
+            "description": "End date (YYYY-MM-DD format)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取提交数排行",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_list_CommitRankResponse__"
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": [
+                    {
+                      "user_id": 1,
+                      "username": "zhangsan",
+                      "commit_count": 45,
+                      "avg_commits_per_day": 1.5
+                    },
+                    {
+                      "user_id": 2,
+                      "username": "lisi",
+                      "commit_count": 32,
+                      "avg_commits_per_day": 1.07
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Project not found"
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": [
+                    {
+                      "loc": [
+                        "query",
+                        "limit"
+                      ],
+                      "msg": "ensure this value is less than or equal to 100",
+                      "type": "value_error.number.not_le"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApiResponse_list_CommitRankResponse__": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "description": "HTTP status code or custom code",
+            "default": 200
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Response message",
+            "default": "success"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/CommitRankResponse"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data",
+            "description": "Response data"
+          }
+        },
+        "type": "object",
+        "title": "ApiResponse[list[CommitRankResponse]]"
+      },
+      "CommitRankResponse": {
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "title": "User Id",
+            "description": "用户ID"
+          },
+          "username": {
+            "type": "string",
+            "title": "Username",
+            "description": "用户名"
+          },
+          "commit_count": {
+            "type": "integer",
+            "title": "Commit Count",
+            "description": "提交次数"
+          },
+          "avg_commits_per_day": {
+            "type": "number",
+            "title": "Avg Commits Per Day",
+            "description": "日均提交次数"
+          }
+        },
+        "type": "object",
+        "required": [
+          "user_id",
+          "username",
+          "commit_count",
+          "avg_commits_per_day"
+        ],
+        "title": "CommitRankResponse",
+        "description": "Response schema for commit ranking by commit count."
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "scopes": {},
+            "tokenUrl": "/api/v1/auth/login"
+          }
+        }
+      },
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

@@ -1,0 +1,161 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Coding Agent Stats",
+    "description": "研发中心 Coding Agent 绩效统计平台",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/cache/clear": {
+      "post": {
+        "tags": [
+          "cache"
+        ],
+        "summary": "清除缓存",
+        "description": "清除指定类型的缓存。支持清除所有缓存、用户缓存、项目缓存或统计缓存。需要管理员权限。",
+        "operationId": "clear_cache_api_v1_cache_clear_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "cache_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Type of cache to clear (all, stats, user, project, dashboard, trend). Defaults to 'all'.",
+              "default": "all",
+              "title": "Cache Type"
+            },
+            "description": "Type of cache to clear (all, stats, user, project, dashboard, trend). Defaults to 'all'."
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "User ID (required when cache_type=user)",
+              "title": "User Id"
+            },
+            "description": "User ID (required when cache_type=user)"
+          },
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Project ID (required when cache_type=project)",
+              "title": "Project Id"
+            },
+            "description": "Project ID (required when cache_type=project)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "缓存清除成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_dict_"
+                },
+                "example": {
+                  "code": 200,
+                  "message": "Cache cleared successfully",
+                  "data": {
+                    "cleared_keys": 50,
+                    "cache_type": "stats"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - admin permission required"
+          },
+          "422": {
+            "description": "Invalid cache type",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Invalid cache type. Must be one of: all, stats, user, project, dashboard, trend"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApiResponse_dict_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "description": "HTTP status code or custom code",
+            "default": 200
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Response message",
+            "default": "success"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data",
+            "description": "Response data"
+          }
+        },
+        "type": "object",
+        "title": "ApiResponse[dict]"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "scopes": {},
+            "tokenUrl": "/api/v1/auth/login"
+          }
+        }
+      },
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

@@ -1,0 +1,232 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Coding Agent Stats",
+    "description": "研发中心 Coding Agent 绩效统计平台",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/stats/personal/bugs": {
+      "get": {
+        "tags": [
+          "personal-stats"
+        ],
+        "summary": "获取个人Bug率统计",
+        "description": "获取指定用户的Bug统计数据，包括Bug总数、严重Bug数、Bug率（每1000行代码的Bug数）、已解决Bug数。可指定项目筛选，默认统计最近30天。",
+        "operationId": "get_personal_bug_rate_api_v1_stats_personal_bugs_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "exclusiveMinimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "User ID (optional, defaults to current user)",
+              "examples": [
+                1
+              ],
+              "title": "User Id"
+            },
+            "description": "User ID (optional, defaults to current user)"
+          },
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "exclusiveMinimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional project ID to filter bugs by specific project",
+              "examples": [
+                1
+              ],
+              "title": "Project Id"
+            },
+            "description": "Optional project ID to filter bugs by specific project"
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Start date (YYYY-MM-DD format)",
+              "title": "Start Date"
+            },
+            "description": "Start date (YYYY-MM-DD format)"
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "End date (YYYY-MM-DD format)",
+              "title": "End Date"
+            },
+            "description": "End date (YYYY-MM-DD format)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取Bug统计",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_PersonalBugRateResponse_"
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "total_bugs": 5,
+                    "critical_bugs": 1,
+                    "bug_rate": 4.0,
+                    "resolved_bugs": 3
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User or project not found"
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": [
+                    {
+                      "loc": [
+                        "query",
+                        "user_id"
+                      ],
+                      "msg": "field required",
+                      "type": "value_error.missing"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PersonalBugRateResponse": {
+        "properties": {
+          "total_bugs": {
+            "type": "integer",
+            "title": "Total Bugs",
+            "description": "Bug总数",
+            "default": 0
+          },
+          "critical_bugs": {
+            "type": "integer",
+            "title": "Critical Bugs",
+            "description": "严重Bug数",
+            "default": 0
+          },
+          "bug_rate": {
+            "type": "number",
+            "title": "Bug Rate",
+            "description": "Bug率",
+            "default": 0.0
+          },
+          "resolved_bugs": {
+            "type": "integer",
+            "title": "Resolved Bugs",
+            "description": "已解决Bug数",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "title": "PersonalBugRateResponse",
+        "description": "Schema for personal bug rate response."
+      },
+      "ApiResponse_PersonalBugRateResponse_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "description": "HTTP status code or custom code",
+            "default": 200
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Response message",
+            "default": "success"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PersonalBugRateResponse"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Response data"
+          }
+        },
+        "type": "object",
+        "title": "ApiResponse[PersonalBugRateResponse]"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "scopes": {},
+            "tokenUrl": "/api/v1/auth/login"
+          }
+        }
+      },
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

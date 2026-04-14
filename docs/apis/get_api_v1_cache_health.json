@@ -1,0 +1,105 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Coding Agent Stats",
+    "description": "研发中心 Coding Agent 绩效统计平台",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/cache/health": {
+      "get": {
+        "tags": [
+          "cache"
+        ],
+        "summary": "检查缓存服务健康状态",
+        "description": "检查Redis缓存服务的连接状态。",
+        "operationId": "cache_health_api_v1_cache_health_get",
+        "responses": {
+          "200": {
+            "description": "缓存服务正常",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_dict_"
+                },
+                "example": {
+                  "code": 200,
+                  "message": "Cache service is healthy",
+                  "data": {
+                    "status": "healthy",
+                    "enabled": true
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "缓存服务不可用",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": 503,
+                  "message": "Cache service is unavailable",
+                  "data": {
+                    "status": "unhealthy",
+                    "enabled": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApiResponse_dict_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "description": "HTTP status code or custom code",
+            "default": 200
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Response message",
+            "default": "success"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data",
+            "description": "Response data"
+          }
+        },
+        "type": "object",
+        "title": "ApiResponse[dict]"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "scopes": {},
+            "tokenUrl": "/api/v1/auth/login"
+          }
+        }
+      },
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

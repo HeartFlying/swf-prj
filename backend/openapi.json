@@ -1,0 +1,4786 @@
+E:\code\LLM\workspace\swf-prj\backend\app\api\v1\projects.py:63: FastAPIDeprecationWarning: `example` has been deprecated, please use `examples` instead
+  page: int = Query(1, ge=1, description="页码 (从1开始)", example=1),
+E:\code\LLM\workspace\swf-prj\backend\app\api\v1\projects.py:64: FastAPIDeprecationWarning: `example` has been deprecated, please use `examples` instead
+  page_size: int = Query(20, ge=1, le=100, description="每页数量 (1-100)", example=20),
+E:\code\LLM\workspace\swf-prj\backend\app\api\v1\projects.py:65: FastAPIDeprecationWarning: `example` has been deprecated, please use `examples` instead
+  status: str | None = Query(None, description="按状态筛选 (如: active, inactive)", example="active"),
+E:\code\LLM\workspace\swf-prj\backend\app\api\v1\projects.py:66: FastAPIDeprecationWarning: `example` has been deprecated, please use `examples` instead
+  stage: str | None = Query(None, description="按阶段筛选 (如: planning, development, testing)", example="development"),
+E:\code\LLM\workspace\swf-prj\backend\app\api\v1\projects.py:67: FastAPIDeprecationWarning: `example` has been deprecated, please use `examples` instead
+  keyword: str | None = Query(None, description="搜索关键词（匹配项目名称或代码）", example="demo"),
+E:\code\LLM\workspace\swf-prj\backend\app\api\v1\projects.py:484: FastAPIDeprecationWarning: `example` has been deprecated, please use `examples` instead
+  page: int = Query(1, ge=1, description="页码 (从1开始)", example=1),
+E:\code\LLM\workspace\swf-prj\backend\app\api\v1\projects.py:485: FastAPIDeprecationWarning: `example` has been deprecated, please use `examples` instead
+  page_size: int = Query(20, ge=1, le=100, description="每页数量 (1-100)", example=20),
+E:\code\LLM\workspace\swf-prj\backend\app\api\v1\stats\personal.py:78: FastAPIDeprecationWarning: `example` has been deprecated, please use `examples` instead
+  user_id: int = Query(..., description="用户ID", gt=0, example=1),
+E:\code\LLM\workspace\swf-prj\backend\app\api\v1\stats\personal.py:191: FastAPIDeprecationWarning: `example` has been deprecated, please use `examples` instead
+  user_id: int = Query(..., description="用户ID", gt=0, example=1),
+E:\code\LLM\workspace\swf-prj\backend\app\api\v1\stats\personal.py:278: FastAPIDeprecationWarning: `example` has been deprecated, please use `examples` instead
+  user_id: int = Query(..., description="用户ID", gt=0, example=1),
+E:\code\LLM\workspace\swf-prj\backend\app\api\v1\stats\personal.py:367: FastAPIDeprecationWarning: `example` has been deprecated, please use `examples` instead
+  user_id: int = Query(..., description="用户ID", gt=0, example=1),
+E:\code\LLM\workspace\swf-prj\backend\app\api\v1\stats\personal.py:368: FastAPIDeprecationWarning: `example` has been deprecated, please use `examples` instead
+  project_id: int | None = Query(None, description="项目ID（可选，用于筛选特定项目的Bug）", gt=0, example=1),
+E:\code\LLM\workspace\swf-prj\backend\app\api\v1\stats\projects.py:198: FastAPIDeprecationWarning: `example` has been deprecated, please use `examples` instead
+  limit: int = Query(20, ge=1, le=100, description="返回数量限制 (1-100)", example=20),
+E:\code\LLM\workspace\swf-prj\backend\app\api\v1\stats\projects.py:359: FastAPIDeprecationWarning: `example` has been deprecated, please use `examples` instead
+  limit: int = Query(20, ge=1, le=100, description="返回数量限制 (1-100)", example=20),
+E:\code\LLM\workspace\swf-prj\backend\app\api\v1\stats\projects.py:450: FastAPIDeprecationWarning: `example` has been deprecated, please use `examples` instead
+  days: int = Query(30, ge=7, le=365, description="统计天数 (7-365)", example=30),
+E:\code\LLM\workspace\swf-prj\backend\app\api\v1\stats\projects.py:559: FastAPIDeprecationWarning: `example` has been deprecated, please use `examples` instead
+  days: int = Query(30, ge=7, le=365, description="统计天数 (7-365)", example=30),
+E:\code\LLM\workspace\swf-prj\backend\app\api\v1\stats\global_stats.py:127: FastAPIDeprecationWarning: `example` has been deprecated, please use `examples` instead
+  days: int = Query(30, ge=7, le=365, description="统计天数 (7-365)", example=30),
+E:\code\LLM\workspace\swf-prj\backend\app\api\v1\stats\global_stats.py:211: FastAPIDeprecationWarning: `example` has been deprecated, please use `examples` instead
+  limit: int = Query(20, ge=1, le=100, description="返回数量限制 (1-100)", example=20),
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Coding Agent Stats",
+    "description": "研发中心 Coding Agent 绩效统计平台",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": [
+          "authentication"
+        ],
+        "summary": "Login",
+        "description": "Login endpoint to get access and refresh tokens.\n\nArgs:\n    form_data: OAuth2 form with username and password.\n    db: Database session.\n    auth_svc: Auth service module.\n\nReturns:\n    Token response with access and refresh tokens.\n\nRaises:\n    HTTPException: If authentication fails.",
+        "operationId": "login_api_v1_auth_login_post",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_login_api_v1_auth_login_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenRefreshResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/refresh": {
+      "post": {
+        "tags": [
+          "authentication"
+        ],
+        "summary": "Refresh",
+        "description": "Refresh access token using refresh token.\n\nArgs:\n    request: Refresh token request.\n    db: Database session.\n    auth_svc: Auth service module.\n\nReturns:\n    New access token response.\n\nRaises:\n    HTTPException: If refresh token is invalid.",
+        "operationId": "refresh_api_v1_auth_refresh_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "tags": [
+          "authentication"
+        ],
+        "summary": "Logout Endpoint",
+        "description": "Logout endpoint to invalidate tokens.\n\nArgs:\n    request: Logout request with optional refresh token.\n    token: Current access token from Authorization header.\n    auth_svc: Auth service module.\n\nReturns:\n    Logout success message.\n\nRaises:\n    HTTPException: If logout fails.",
+        "operationId": "logout_endpoint_api_v1_auth_logout_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogoutRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogoutResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/me": {
+      "get": {
+        "tags": [
+          "authentication"
+        ],
+        "summary": "Get Me",
+        "description": "Get current user information.\n\nArgs:\n    current_user: Current authenticated user.\n\nReturns:\n    User information.",
+        "operationId": "get_me_api_v1_auth_me_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/users": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get Users",
+        "description": "Get list of users.\n\nArgs:\n    db: Database session.\n    current_user: Current authenticated user.\n    skip: Number of users to skip.\n    limit: Maximum number of users to return.\n\nReturns:\n    List of users.",
+        "operationId": "get_users_api_v1_users_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0,
+              "title": "Skip"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserResponse"
+                  },
+                  "title": "Response Get Users Api V1 Users Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Create User",
+        "description": "Create a new user.\n\nArgs:\n    user_data: User creation data.\n    db: Database session.\n    current_user: Current authenticated user.\n\nReturns:\n    Created user.\n\nRaises:\n    HTTPException: If username or email already exists.",
+        "operationId": "create_user_api_v1_users_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/{user_id}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get User",
+        "description": "Get user by ID.\n\nArgs:\n    user_id: User ID.\n    db: Database session.\n    current_user: Current authenticated user.\n\nReturns:\n    User.\n\nRaises:\n    HTTPException: If user not found.",
+        "operationId": "get_user_api_v1_users__user_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "User Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Update User",
+        "description": "Update user.\n\nArgs:\n    user_id: User ID.\n    user_data: User update data.\n    db: Database session.\n    current_user: Current authenticated user.\n\nReturns:\n    Updated user.\n\nRaises:\n    HTTPException: If user not found or permission denied.",
+        "operationId": "update_user_api_v1_users__user_id__put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "User Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Delete User",
+        "description": "Delete user.\n\nArgs:\n    user_id: User ID.\n    db: Database session.\n    current_user: Current authenticated user (must be admin).\n\nRaises:\n    HTTPException: If user not found or permission denied.",
+        "operationId": "delete_user_api_v1_users__user_id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "User Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/projects": {
+      "get": {
+        "tags": [
+          "projects"
+        ],
+        "summary": "获取项目列表",
+        "description": "获取分页的项目列表，支持按状态、阶段筛选和关键词搜索。",
+        "operationId": "list_projects_api_v1_projects_get",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "页码 (从1开始)",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "页码 (从1开始)",
+            "example": 1
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "每页数量 (1-100)",
+              "default": 20,
+              "title": "Page Size"
+            },
+            "description": "每页数量 (1-100)",
+            "example": 20
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "按状态筛选 (如: active, inactive)",
+              "title": "Status"
+            },
+            "description": "按状态筛选 (如: active, inactive)",
+            "example": "active"
+          },
+          {
+            "name": "stage",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "按阶段筛选 (如: planning, development, testing)",
+              "title": "Stage"
+            },
+            "description": "按阶段筛选 (如: planning, development, testing)",
+            "example": "development"
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "搜索关键词（匹配项目名称或代码）",
+              "title": "Keyword"
+            },
+            "description": "搜索关键词（匹配项目名称或代码）",
+            "example": "demo"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取项目列表",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectListResponse"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "id": 1,
+                      "name": "示例项目",
+                      "code": "demo-project",
+                      "description": "这是一个示例项目",
+                      "stage": "development",
+                      "status": "active",
+                      "start_date": "2026-01-01",
+                      "end_date": "2026-12-31",
+                      "manager_id": 1,
+                      "created_at": "2026-01-01T00:00:00",
+                      "updated_at": "2026-03-31T00:00:00"
+                    }
+                  ],
+                  "total": 50,
+                  "page": 1,
+                  "page_size": 20
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "参数验证错误"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "projects"
+        ],
+        "summary": "创建新项目",
+        "description": "创建新项目。需要管理员权限。",
+        "operationId": "create_project_api_v1_projects_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "项目创建成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectInDB"
+                },
+                "example": {
+                  "id": 1,
+                  "name": "示例项目",
+                  "code": "demo-project",
+                  "description": "这是一个示例项目",
+                  "stage": "development",
+                  "status": "active",
+                  "start_date": "2026-01-01",
+                  "end_date": "2026-12-31",
+                  "manager_id": 1,
+                  "created_at": "2026-03-31T10:00:00",
+                  "updated_at": "2026-03-31T10:00:00"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未授权访问"
+          },
+          "403": {
+            "description": "权限不足（需要管理员权限）"
+          },
+          "409": {
+            "description": "项目代码已存在"
+          },
+          "422": {
+            "description": "参数验证错误"
+          }
+        }
+      }
+    },
+    "/api/v1/projects/{project_id}": {
+      "get": {
+        "tags": [
+          "projects"
+        ],
+        "summary": "获取项目详情",
+        "description": "获取指定项目的详细信息，包括项目成员列表。",
+        "operationId": "get_project_api_v1_projects__project_id__get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取项目详情",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectResponse"
+                },
+                "example": {
+                  "id": 1,
+                  "name": "示例项目",
+                  "code": "demo-project",
+                  "description": "这是一个示例项目",
+                  "stage": "development",
+                  "status": "active",
+                  "start_date": "2026-01-01",
+                  "end_date": "2026-12-31",
+                  "manager_id": 1,
+                  "created_at": "2026-01-01T00:00:00",
+                  "updated_at": "2026-03-31T00:00:00",
+                  "members": [
+                    {
+                      "id": 1,
+                      "project_id": 1,
+                      "user_id": 1,
+                      "role": "owner",
+                      "username": "zhangsan",
+                      "email": "zhangsan@example.com"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "项目不存在"
+          },
+          "422": {
+            "description": "参数验证错误"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "projects"
+        ],
+        "summary": "更新项目",
+        "description": "更新指定项目的信息。需要管理员权限。",
+        "operationId": "update_project_api_v1_projects__project_id__put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "项目更新成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectInDB"
+                },
+                "example": {
+                  "id": 1,
+                  "name": "示例项目（已更新）",
+                  "code": "demo-project",
+                  "description": "更新后的描述",
+                  "stage": "testing",
+                  "status": "active",
+                  "start_date": "2026-01-01",
+                  "end_date": "2026-12-31",
+                  "manager_id": 1,
+                  "created_at": "2026-01-01T00:00:00",
+                  "updated_at": "2026-03-31T12:00:00"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未授权访问"
+          },
+          "403": {
+            "description": "权限不足（需要管理员权限）"
+          },
+          "404": {
+            "description": "项目不存在"
+          },
+          "409": {
+            "description": "项目代码已存在"
+          },
+          "422": {
+            "description": "参数验证错误"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "projects"
+        ],
+        "summary": "删除项目",
+        "description": "删除指定项目。需要管理员权限。此操作不可恢复。",
+        "operationId": "delete_project_api_v1_projects__project_id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "项目删除成功"
+          },
+          "401": {
+            "description": "未授权访问"
+          },
+          "403": {
+            "description": "权限不足（需要管理员权限）"
+          },
+          "404": {
+            "description": "项目不存在"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/projects/{project_id}/members": {
+      "get": {
+        "tags": [
+          "projects"
+        ],
+        "summary": "获取项目成员列表",
+        "description": "获取指定项目的成员列表，包含用户详细信息。",
+        "operationId": "list_project_members_api_v1_projects__project_id__members_get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "页码 (从1开始)",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "页码 (从1开始)",
+            "example": 1
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "每页数量 (1-100)",
+              "default": 20,
+              "title": "Page Size"
+            },
+            "description": "每页数量 (1-100)",
+            "example": 20
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取成员列表",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectMemberListResponse"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "id": 1,
+                      "project_id": 1,
+                      "user_id": 1,
+                      "role": "owner",
+                      "username": "zhangsan",
+                      "email": "zhangsan@example.com"
+                    },
+                    {
+                      "id": 2,
+                      "project_id": 1,
+                      "user_id": 2,
+                      "role": "developer",
+                      "username": "lisi",
+                      "email": "lisi@example.com"
+                    }
+                  ],
+                  "total": 8,
+                  "page": 1,
+                  "page_size": 20
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "项目不存在"
+          },
+          "422": {
+            "description": "参数验证错误"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "projects"
+        ],
+        "summary": "添加项目成员",
+        "description": "向指定项目添加成员。需要管理员权限。",
+        "operationId": "add_project_member_api_v1_projects__project_id__members_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectMemberCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "成员添加成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectMemberResponse"
+                },
+                "example": {
+                  "id": 3,
+                  "project_id": 1,
+                  "user_id": 3,
+                  "role": "developer",
+                  "username": "wangwu",
+                  "email": "wangwu@example.com"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未授权访问"
+          },
+          "403": {
+            "description": "权限不足（需要管理员权限）"
+          },
+          "404": {
+            "description": "项目或用户不存在"
+          },
+          "409": {
+            "description": "用户已是项目成员"
+          },
+          "422": {
+            "description": "参数验证错误"
+          }
+        }
+      }
+    },
+    "/api/v1/stats/global/token-trend": {
+      "get": {
+        "tags": [
+          "global-stats"
+        ],
+        "summary": "获取全局Token使用趋势",
+        "description": "获取全系统的Token使用趋势数据，包括每日Token使用量。可指定日期范围，默认统计最近30天。",
+        "operationId": "get_token_trend_api_v1_stats_global_token_trend_get",
+        "parameters": [
+          {
+            "name": "start_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "开始日期 (YYYY-MM-DD格式)",
+              "title": "Start Date"
+            },
+            "description": "开始日期 (YYYY-MM-DD格式)"
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "结束日期 (YYYY-MM-DD格式)",
+              "title": "End Date"
+            },
+            "description": "结束日期 (YYYY-MM-DD格式)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取Token趋势",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenTrendResponse"
+                },
+                "example": {
+                  "dates": [
+                    "2026-03-01",
+                    "2026-03-02",
+                    "2026-03-03"
+                  ],
+                  "values": [
+                    15000,
+                    18000,
+                    16500
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "参数验证错误"
+          }
+        }
+      }
+    },
+    "/api/v1/stats/global/activity-trend": {
+      "get": {
+        "tags": [
+          "global-stats"
+        ],
+        "summary": "获取全局活动趋势",
+        "description": "获取全系统的活动趋势数据，包括每日活跃用户数和总提交数。可指定统计天数，默认30天，范围7-365天。",
+        "operationId": "get_activity_trend_api_v1_stats_global_activity_trend_get",
+        "parameters": [
+          {
+            "name": "days",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 365,
+              "minimum": 7,
+              "description": "统计天数 (7-365)",
+              "default": 30,
+              "title": "Days"
+            },
+            "description": "统计天数 (7-365)",
+            "example": 30
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取活动趋势",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityTrendResponse"
+                },
+                "example": {
+                  "dates": [
+                    "2026-03-01",
+                    "2026-03-02",
+                    "2026-03-03"
+                  ],
+                  "active_users": [
+                    15,
+                    18,
+                    16
+                  ],
+                  "total_commits": [
+                    45,
+                    52,
+                    48
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "参数验证错误 (days必须在7-365之间)"
+          }
+        }
+      }
+    },
+    "/api/v1/stats/global/top-users": {
+      "get": {
+        "tags": [
+          "global-stats"
+        ],
+        "summary": "获取Token使用量排行用户",
+        "description": "获取Token使用量最高的用户排行榜，包括用户名、部门、Token使用量和提交次数。可指定返回数量限制，默认20个。",
+        "operationId": "get_top_users_api_v1_stats_global_top_users_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "返回数量限制 (1-100)",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "返回数量限制 (1-100)",
+            "example": 20
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取用户排行",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TopUserResponse"
+                  },
+                  "title": "Response Get Top Users Api V1 Stats Global Top Users Get"
+                },
+                "example": [
+                  {
+                    "user_id": 1,
+                    "username": "zhangsan",
+                    "department": "研发部",
+                    "token_count": 50000,
+                    "commit_count": 150
+                  },
+                  {
+                    "user_id": 2,
+                    "username": "lisi",
+                    "department": "测试部",
+                    "token_count": 35000,
+                    "commit_count": 120
+                  }
+                ]
+              }
+            }
+          },
+          "422": {
+            "description": "参数验证错误 (limit必须在1-100之间)"
+          }
+        }
+      }
+    },
+    "/api/v1/stats/projects/{project_id}": {
+      "get": {
+        "tags": [
+          "project-stats"
+        ],
+        "summary": "获取项目统计概览",
+        "description": "获取指定项目的统计概览，包括总提交数、总Token使用量、活跃成员数、Bug数量。默认统计最近30天的数据。",
+        "operationId": "get_project_stats_api_v1_stats_projects__project_id__get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取项目统计",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectStatsResponse"
+                },
+                "example": {
+                  "project_id": 1,
+                  "project_name": "示例项目",
+                  "total_commits": 150,
+                  "total_tokens": 50000,
+                  "active_members": 8,
+                  "bug_count": 12
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "项目不存在"
+          },
+          "422": {
+            "description": "参数验证错误"
+          }
+        }
+      }
+    },
+    "/api/v1/stats/projects/{project_id}/code-rank": {
+      "get": {
+        "tags": [
+          "project-stats"
+        ],
+        "summary": "获取项目代码量排行",
+        "description": "获取项目成员的代码量排行榜，按代码行数排序。可指定返回数量限制。",
+        "operationId": "get_project_code_rank_api_v1_stats_projects__project_id__code_rank_get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "返回数量限制 (1-100)",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "返回数量限制 (1-100)",
+            "example": 20
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取代码量排行",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CodeRankResponse"
+                  },
+                  "title": "Response Get Project Code Rank Api V1 Stats Projects  Project Id  Code Rank Get"
+                },
+                "example": [
+                  {
+                    "user_id": 1,
+                    "username": "zhangsan",
+                    "lines_added": 2500,
+                    "lines_deleted": 500,
+                    "total_lines": 2000
+                  },
+                  {
+                    "user_id": 2,
+                    "username": "lisi",
+                    "lines_added": 1800,
+                    "lines_deleted": 300,
+                    "total_lines": 1500
+                  }
+                ]
+              }
+            }
+          },
+          "404": {
+            "description": "项目不存在"
+          },
+          "422": {
+            "description": "参数验证错误"
+          }
+        }
+      }
+    },
+    "/api/v1/stats/projects/{project_id}/bug-trend": {
+      "get": {
+        "tags": [
+          "project-stats"
+        ],
+        "summary": "获取项目Bug趋势",
+        "description": "获取指定项目在日期范围内的Bug趋势数据，包括每日创建的Bug数和解决的Bug数。默认统计最近30天。",
+        "operationId": "get_project_bug_trend_api_v1_stats_projects__project_id__bug_trend_get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "开始日期 (YYYY-MM-DD格式)",
+              "title": "Start Date"
+            },
+            "description": "开始日期 (YYYY-MM-DD格式)"
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "结束日期 (YYYY-MM-DD格式)",
+              "title": "End Date"
+            },
+            "description": "结束日期 (YYYY-MM-DD格式)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取Bug趋势",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BugTrendResponse"
+                },
+                "example": {
+                  "dates": [
+                    "2026-03-01",
+                    "2026-03-02",
+                    "2026-03-03"
+                  ],
+                  "created": [
+                    2,
+                    1,
+                    3
+                  ],
+                  "resolved": [
+                    1,
+                    2,
+                    1
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "项目不存在"
+          },
+          "422": {
+            "description": "参数验证错误"
+          }
+        }
+      }
+    },
+    "/api/v1/stats/projects/{project_id}/commit-rank": {
+      "get": {
+        "tags": [
+          "project-stats"
+        ],
+        "summary": "获取项目提交数排行",
+        "description": "获取项目成员在指定日期范围内的提交数排行榜。可指定返回数量限制和日期范围，默认统计最近30天。",
+        "operationId": "get_project_commit_rank_api_v1_stats_projects__project_id__commit_rank_get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "返回数量限制 (1-100)",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "返回数量限制 (1-100)",
+            "example": 20
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "开始日期 (YYYY-MM-DD格式)",
+              "title": "Start Date"
+            },
+            "description": "开始日期 (YYYY-MM-DD格式)"
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "结束日期 (YYYY-MM-DD格式)",
+              "title": "End Date"
+            },
+            "description": "结束日期 (YYYY-MM-DD格式)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取提交数排行",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CommitRankResponse"
+                  },
+                  "title": "Response Get Project Commit Rank Api V1 Stats Projects  Project Id  Commit Rank Get"
+                },
+                "example": [
+                  {
+                    "user_id": 1,
+                    "username": "zhangsan",
+                    "commit_count": 45,
+                    "avg_commits_per_day": 1.5
+                  },
+                  {
+                    "user_id": 2,
+                    "username": "lisi",
+                    "commit_count": 32,
+                    "avg_commits_per_day": 1.07
+                  }
+                ]
+              }
+            }
+          },
+          "404": {
+            "description": "项目不存在"
+          },
+          "422": {
+            "description": "参数验证错误"
+          }
+        }
+      }
+    },
+    "/api/v1/stats/projects/{project_id}/ai-adoption": {
+      "get": {
+        "tags": [
+          "project-stats"
+        ],
+        "summary": "获取项目AI采纳率趋势",
+        "description": "获取指定项目的AI采纳率趋势数据，包括每日AI建议数、接受数和采纳率。可指定统计天数，默认30天，范围7-365天。",
+        "operationId": "get_project_ai_adoption_api_v1_stats_projects__project_id__ai_adoption_get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "days",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 365,
+              "minimum": 7,
+              "description": "统计天数 (7-365)",
+              "default": 30,
+              "title": "Days"
+            },
+            "description": "统计天数 (7-365)",
+            "example": 30
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取AI采纳率趋势",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AIAdoptionResponse"
+                  },
+                  "title": "Response Get Project Ai Adoption Api V1 Stats Projects  Project Id  Ai Adoption Get"
+                },
+                "example": [
+                  {
+                    "date": "2026-03-01",
+                    "adoption_rate": 85.5,
+                    "ai_suggestions": 20,
+                    "accepted_suggestions": 17
+                  },
+                  {
+                    "date": "2026-03-02",
+                    "adoption_rate": 90.0,
+                    "ai_suggestions": 10,
+                    "accepted_suggestions": 9
+                  }
+                ]
+              }
+            }
+          },
+          "404": {
+            "description": "项目不存在"
+          },
+          "422": {
+            "description": "参数验证错误 (days必须在7-365之间)"
+          }
+        }
+      }
+    },
+    "/api/v1/stats/projects/{project_id}/dashboard": {
+      "get": {
+        "tags": [
+          "project-stats"
+        ],
+        "summary": "获取项目仪表板统计",
+        "description": "获取项目仪表板的综合统计数据，包括项目概览（提交数、Token使用量、成员数、Bug数）、成员活跃度排行、Bug趋势摘要。可指定统计天数，默认30天。",
+        "operationId": "get_project_dashboard_api_v1_stats_projects__project_id__dashboard_get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "days",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 365,
+              "minimum": 7,
+              "description": "统计天数 (7-365)",
+              "default": 30,
+              "title": "Days"
+            },
+            "description": "统计天数 (7-365)",
+            "example": 30
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取项目仪表板数据",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectDashboardResponse"
+                },
+                "example": {
+                  "project_id": 1,
+                  "project_name": "示例项目",
+                  "overview": {
+                    "total_commits": 150,
+                    "total_tokens": 50000,
+                    "active_members": 8,
+                    "bug_count": 12
+                  },
+                  "top_contributors": [
+                    {
+                      "user_id": 1,
+                      "username": "zhangsan",
+                      "commit_count": 45
+                    },
+                    {
+                      "user_id": 2,
+                      "username": "lisi",
+                      "commit_count": 32
+                    }
+                  ],
+                  "bug_summary": {
+                    "total_bugs": 12,
+                    "resolved_bugs": 8,
+                    "trend_direction": "decreasing"
+                  },
+                  "period_days": 30,
+                  "start_date": "2026-03-01",
+                  "end_date": "2026-03-31"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "项目不存在"
+          },
+          "422": {
+            "description": "参数验证错误 (days必须在7-365之间)"
+          }
+        }
+      }
+    },
+    "/api/v1/stats/personal/dashboard": {
+      "get": {
+        "tags": [
+          "personal-stats"
+        ],
+        "summary": "获取个人仪表板统计",
+        "description": "获取用户仪表板的综合统计数据，包括代码统计汇总、Token使用汇总和Bug统计汇总。默认统计最近30天的数据。",
+        "operationId": "get_personal_dashboard_api_v1_stats_personal_dashboard_get",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "description": "用户ID",
+              "title": "User Id"
+            },
+            "description": "用户ID",
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取个人仪表板数据",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalDashboardResponse"
+                },
+                "example": {
+                  "user_id": 1,
+                  "username": "zhangsan",
+                  "code_summary": {
+                    "total_commits": 42,
+                    "lines_added": 1250,
+                    "lines_deleted": 320
+                  },
+                  "token_summary": {
+                    "total_tokens": 15000
+                  },
+                  "bug_summary": {
+                    "total_bugs": 5,
+                    "resolved_bugs": 3,
+                    "critical_bugs": 1
+                  },
+                  "period_days": 30,
+                  "start_date": "2026-03-01",
+                  "end_date": "2026-03-31"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "用户不存在"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/stats/personal/code": {
+      "get": {
+        "tags": [
+          "personal-stats"
+        ],
+        "summary": "获取个人代码统计",
+        "description": "获取指定用户在日期范围内的代码提交统计信息，包括总提交数、新增/删除代码行数、日均提交数等。默认统计最近30天。",
+        "operationId": "get_personal_code_stats_api_v1_stats_personal_code_get",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "description": "用户ID",
+              "title": "User Id"
+            },
+            "description": "用户ID",
+            "example": 1
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "开始日期 (YYYY-MM-DD格式)",
+              "title": "Start Date"
+            },
+            "description": "开始日期 (YYYY-MM-DD格式)"
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "结束日期 (YYYY-MM-DD格式)",
+              "title": "End Date"
+            },
+            "description": "结束日期 (YYYY-MM-DD格式)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取代码统计",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalCodeStatsResponse"
+                },
+                "example": {
+                  "total_commits": 42,
+                  "total_prs": 0,
+                  "lines_added": 1250,
+                  "lines_deleted": 320,
+                  "avg_commits_per_day": 1.4
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "用户不存在"
+          },
+          "422": {
+            "description": "参数验证错误"
+          }
+        }
+      }
+    },
+    "/api/v1/stats/personal/tokens": {
+      "get": {
+        "tags": [
+          "personal-stats"
+        ],
+        "summary": "获取个人Token使用统计",
+        "description": "获取指定用户在日期范围内的Token使用统计信息，包括总Token使用量、Prompt/Completion Token使用量、日均使用量等。默认统计最近30天。",
+        "operationId": "get_personal_token_stats_api_v1_stats_personal_tokens_get",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "description": "用户ID",
+              "title": "User Id"
+            },
+            "description": "用户ID",
+            "example": 1
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "开始日期 (YYYY-MM-DD格式)",
+              "title": "Start Date"
+            },
+            "description": "开始日期 (YYYY-MM-DD格式)"
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "结束日期 (YYYY-MM-DD格式)",
+              "title": "End Date"
+            },
+            "description": "结束日期 (YYYY-MM-DD格式)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取Token使用统计",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalTokenStatsResponse"
+                },
+                "example": {
+                  "total_tokens": 15000,
+                  "prompt_tokens": 9000,
+                  "completion_tokens": 6000,
+                  "avg_tokens_per_day": 500.0
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "用户不存在"
+          },
+          "422": {
+            "description": "参数验证错误"
+          }
+        }
+      }
+    },
+    "/api/v1/stats/personal/bugs": {
+      "get": {
+        "tags": [
+          "personal-stats"
+        ],
+        "summary": "获取个人Bug率统计",
+        "description": "获取指定用户的Bug统计数据，包括Bug总数、严重Bug数、Bug率（每1000行代码的Bug数）、已解决Bug数。可指定项目筛选，默认统计最近30天。",
+        "operationId": "get_personal_bug_rate_api_v1_stats_personal_bugs_get",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "description": "用户ID",
+              "title": "User Id"
+            },
+            "description": "用户ID",
+            "example": 1
+          },
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "exclusiveMinimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "项目ID（可选，用于筛选特定项目的Bug）",
+              "title": "Project Id"
+            },
+            "description": "项目ID（可选，用于筛选特定项目的Bug）",
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取Bug统计",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalBugRateResponse"
+                },
+                "example": {
+                  "total_bugs": 5,
+                  "critical_bugs": 1,
+                  "bug_rate": 4.0,
+                  "resolved_bugs": 3
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "用户或项目不存在"
+          },
+          "422": {
+            "description": "参数验证错误"
+          }
+        }
+      }
+    },
+    "/api/v1/sync/gitlab": {
+      "post": {
+        "tags": [
+          "sync"
+        ],
+        "summary": "触发GitLab数据同步",
+        "description": "创建GitLab数据同步任务，包括代码提交、合并请求和成员信息。任务将异步执行。需要管理员权限。",
+        "operationId": "sync_gitlab_api_v1_sync_gitlab_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncGitLabRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "同步任务已创建并排队",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_SyncTaskCreateData_"
+                },
+                "example": {
+                  "code": 202,
+                  "message": "GitLab sync task created and queued for execution.",
+                  "data": {
+                    "task_id": 123,
+                    "source": "gitlab",
+                    "status": "pending"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未授权访问"
+          },
+          "403": {
+            "description": "权限不足（需要管理员权限）"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/sync/trae": {
+      "post": {
+        "tags": [
+          "sync"
+        ],
+        "summary": "触发Trae数据同步",
+        "description": "创建Trae AI平台数据同步任务，包括Token使用量和AI建议数据。任务将异步执行。需要管理员权限。",
+        "operationId": "sync_trae_api_v1_sync_trae_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncTraeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "同步任务已创建并排队",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_SyncTaskCreateData_"
+                },
+                "example": {
+                  "code": 202,
+                  "message": "Trae sync task created and queued for execution.",
+                  "data": {
+                    "task_id": 124,
+                    "source": "trae",
+                    "status": "pending"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未授权访问"
+          },
+          "403": {
+            "description": "权限不足（需要管理员权限）"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/sync/zendao": {
+      "post": {
+        "tags": [
+          "sync"
+        ],
+        "summary": "触发ZenTao数据同步",
+        "description": "创建ZenTao缺陷跟踪系统数据同步任务，包括Bug数据。任务将异步执行。需要管理员权限。",
+        "operationId": "sync_zendao_api_v1_sync_zendao_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncZendaoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "同步任务已创建并排队",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_SyncTaskCreateData_"
+                },
+                "example": {
+                  "code": 202,
+                  "message": "ZenTao sync task created and queued for execution.",
+                  "data": {
+                    "task_id": 125,
+                    "source": "zendao",
+                    "status": "pending"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未授权访问"
+          },
+          "403": {
+            "description": "权限不足（需要管理员权限）"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/sync/tasks": {
+      "get": {
+        "tags": [
+          "sync"
+        ],
+        "summary": "获取同步任务列表",
+        "description": "获取同步任务的分页列表，支持按状态和来源类型筛选。需要管理员权限。",
+        "operationId": "list_sync_tasks_api_v1_sync_tasks_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "页码",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "页码"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "每页数量",
+              "default": 20,
+              "title": "Page Size"
+            },
+            "description": "每页数量"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "按状态筛选 (pending, running, completed, failed, cancelled)",
+              "title": "Status"
+            },
+            "description": "按状态筛选 (pending, running, completed, failed, cancelled)"
+          },
+          {
+            "name": "source_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "按来源筛选 (gitlab, trae, zendao)",
+              "title": "Source Type"
+            },
+            "description": "按来源筛选 (gitlab, trae, zendao)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取任务列表",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_SyncTaskListData_"
+                },
+                "example": {
+                  "code": 200,
+                  "message": "Sync tasks retrieved successfully",
+                  "data": {
+                    "items": [
+                      {
+                        "id": 123,
+                        "task_type": "incremental_sync",
+                        "source_type": "gitlab",
+                        "status": "completed",
+                        "project_id": 1,
+                        "records_processed": 150,
+                        "records_failed": 0,
+                        "created_at": "2026-03-31T10:00:00"
+                      }
+                    ],
+                    "total": 50,
+                    "page": 1,
+                    "page_size": 20
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未授权访问"
+          },
+          "403": {
+            "description": "权限不足（需要管理员权限）"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sync/tasks/{task_id}": {
+      "get": {
+        "tags": [
+          "sync"
+        ],
+        "summary": "获取同步任务详情",
+        "description": "获取指定同步任务的详细信息，包括任务状态、处理记录数、错误信息等。需要管理员权限。",
+        "operationId": "get_sync_task_api_v1_sync_tasks__task_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Task Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取任务详情",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_SyncTaskDetailData_"
+                },
+                "example": {
+                  "code": 200,
+                  "message": "Sync task retrieved successfully",
+                  "data": {
+                    "id": 123,
+                    "task_type": "incremental_sync",
+                    "source_type": "gitlab",
+                    "status": "completed",
+                    "project_id": 1,
+                    "started_at": "2026-03-31T10:00:00",
+                    "completed_at": "2026-03-31T10:05:30",
+                    "records_processed": 150,
+                    "records_failed": 0,
+                    "created_at": "2026-03-31T09:55:00"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未授权访问"
+          },
+          "403": {
+            "description": "权限不足（需要管理员权限）"
+          },
+          "404": {
+            "description": "任务不存在"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sync/tasks/{task_id}/cancel": {
+      "post": {
+        "tags": [
+          "sync"
+        ],
+        "summary": "取消同步任务",
+        "description": "取消一个待执行或正在执行的同步任务。需要管理员权限。",
+        "operationId": "cancel_sync_task_api_v1_sync_tasks__task_id__cancel_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Task Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "任务取消成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_SyncTaskCreateData_"
+                },
+                "example": {
+                  "code": 200,
+                  "message": "Sync task cancelled successfully",
+                  "data": {
+                    "task_id": 123,
+                    "source": "gitlab",
+                    "status": "cancelled"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "任务无法取消（可能已完成或已失败）"
+          },
+          "401": {
+            "description": "未授权访问"
+          },
+          "403": {
+            "description": "权限不足（需要管理员权限）"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sync/logs": {
+      "get": {
+        "tags": [
+          "sync"
+        ],
+        "summary": "获取同步日志列表",
+        "description": "获取同步日志的分页列表，支持按任务ID和日志级别筛选。需要管理员权限。",
+        "operationId": "list_sync_logs_api_v1_sync_logs_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "页码",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "页码"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "每页数量",
+              "default": 20,
+              "title": "Page Size"
+            },
+            "description": "每页数量"
+          },
+          {
+            "name": "task_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "任务ID",
+              "title": "Task Id"
+            },
+            "description": "任务ID"
+          },
+          {
+            "name": "level",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "日志级别 (debug, info, warning, error, critical)",
+              "title": "Level"
+            },
+            "description": "日志级别 (debug, info, warning, error, critical)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取日志列表",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_SyncLogListResponse_"
+                },
+                "example": {
+                  "code": 200,
+                  "message": "Sync logs retrieved successfully",
+                  "data": {
+                    "items": [
+                      {
+                        "id": 1,
+                        "task_id": 123,
+                        "level": "info",
+                        "message": "Starting GitLab sync for project 1",
+                        "details": {
+                          "project_id": 1
+                        },
+                        "created_at": "2026-03-31T10:00:00"
+                      }
+                    ],
+                    "total": 100,
+                    "page": 1,
+                    "page_size": 20
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未授权访问"
+          },
+          "403": {
+            "description": "权限不足（需要管理员权限）"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sync/status": {
+      "get": {
+        "tags": [
+          "sync"
+        ],
+        "summary": "获取同步系统状态",
+        "description": "获取同步系统的整体状态，包括各数据源最近24小时的任务数和当前运行的任务。需要管理员权限。",
+        "operationId": "get_sync_status_api_v1_sync_status_get",
+        "responses": {
+          "200": {
+            "description": "成功获取同步状态",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_SyncStatusData_"
+                },
+                "example": {
+                  "code": 200,
+                  "message": "Sync status retrieved successfully",
+                  "data": {
+                    "recent_tasks": {
+                      "gitlab": 5,
+                      "trae": 3,
+                      "zendao": 2
+                    },
+                    "running_tasks": [
+                      {
+                        "id": 126,
+                        "source_type": "gitlab",
+                        "task_type": "incremental_sync",
+                        "started_at": "2026-03-31T10:00:00"
+                      }
+                    ],
+                    "last_updated": "2026-03-31T12:00:00"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未授权访问"
+          },
+          "403": {
+            "description": "权限不足（需要管理员权限）"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health Check",
+        "description": "Health check endpoint.",
+        "operationId": "health_check_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "Root",
+        "description": "Root endpoint.",
+        "operationId": "root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AIAdoptionResponse": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "title": "Date",
+            "description": "日期"
+          },
+          "adoption_rate": {
+            "type": "number",
+            "title": "Adoption Rate",
+            "description": "采纳率(0-100)",
+            "default": 0.0
+          },
+          "ai_suggestions": {
+            "type": "integer",
+            "title": "Ai Suggestions",
+            "description": "AI建议数",
+            "default": 0
+          },
+          "accepted_suggestions": {
+            "type": "integer",
+            "title": "Accepted Suggestions",
+            "description": "接受的建议数",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "required": [
+          "date"
+        ],
+        "title": "AIAdoptionResponse",
+        "description": "Schema for AI adoption rate response."
+      },
+      "ActivityTrendResponse": {
+        "properties": {
+          "dates": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Dates",
+            "description": "日期列表"
+          },
+          "active_users": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Active Users",
+            "description": "活跃用户数列表"
+          },
+          "total_commits": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Total Commits",
+            "description": "提交数列表"
+          }
+        },
+        "type": "object",
+        "title": "ActivityTrendResponse",
+        "description": "Schema for activity trend response."
+      },
+      "ApiResponse_SyncLogListResponse_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "default": 200
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "success"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SyncLogListResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "ApiResponse[SyncLogListResponse]"
+      },
+      "ApiResponse_SyncStatusData_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "default": 200
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "success"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SyncStatusData"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "ApiResponse[SyncStatusData]"
+      },
+      "ApiResponse_SyncTaskCreateData_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "default": 200
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "success"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SyncTaskCreateData"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "ApiResponse[SyncTaskCreateData]"
+      },
+      "ApiResponse_SyncTaskDetailData_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "default": 200
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "success"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SyncTaskDetailData"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "ApiResponse[SyncTaskDetailData]"
+      },
+      "ApiResponse_SyncTaskListData_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "default": 200
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "success"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SyncTaskListData"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "ApiResponse[SyncTaskListData]"
+      },
+      "Body_login_api_v1_auth_login_post": {
+        "properties": {
+          "grant_type": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^password$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grant Type"
+          },
+          "username": {
+            "type": "string",
+            "title": "Username"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "title": "Password"
+          },
+          "scope": {
+            "type": "string",
+            "title": "Scope",
+            "default": ""
+          },
+          "client_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Client Id"
+          },
+          "client_secret": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "format": "password",
+            "title": "Client Secret"
+          }
+        },
+        "type": "object",
+        "required": [
+          "username",
+          "password"
+        ],
+        "title": "Body_login_api_v1_auth_login_post"
+      },
+      "BugTrendResponse": {
+        "properties": {
+          "dates": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Dates",
+            "description": "日期列表"
+          },
+          "created": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Created",
+            "description": "创建的Bug数"
+          },
+          "resolved": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Resolved",
+            "description": "解决的Bug数"
+          }
+        },
+        "type": "object",
+        "title": "BugTrendResponse",
+        "description": "Schema for bug trend response."
+      },
+      "CodeRankResponse": {
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "title": "User Id",
+            "description": "用户ID"
+          },
+          "username": {
+            "type": "string",
+            "title": "Username",
+            "description": "用户名"
+          },
+          "lines_added": {
+            "type": "integer",
+            "title": "Lines Added",
+            "description": "新增代码行数",
+            "default": 0
+          },
+          "lines_deleted": {
+            "type": "integer",
+            "title": "Lines Deleted",
+            "description": "删除代码行数",
+            "default": 0
+          },
+          "total_lines": {
+            "type": "integer",
+            "title": "Total Lines",
+            "description": "总代码行数",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "required": [
+          "user_id",
+          "username"
+        ],
+        "title": "CodeRankResponse",
+        "description": "Schema for code rank response."
+      },
+      "CommitRankResponse": {
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "title": "User Id",
+            "description": "用户ID"
+          },
+          "username": {
+            "type": "string",
+            "title": "Username",
+            "description": "用户名"
+          },
+          "commit_count": {
+            "type": "integer",
+            "title": "Commit Count",
+            "description": "提交次数"
+          },
+          "avg_commits_per_day": {
+            "type": "number",
+            "title": "Avg Commits Per Day",
+            "description": "日均提交次数"
+          }
+        },
+        "type": "object",
+        "required": [
+          "user_id",
+          "username",
+          "commit_count",
+          "avg_commits_per_day"
+        ],
+        "title": "CommitRankResponse",
+        "description": "Response schema for commit ranking by commit count."
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "LogoutRequest": {
+        "properties": {
+          "refresh_token": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Refresh Token",
+            "description": "刷新令牌（可选）"
+          }
+        },
+        "type": "object",
+        "title": "LogoutRequest",
+        "description": "Logout request schema."
+      },
+      "LogoutResponse": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "退出消息",
+            "default": "Successfully logged out"
+          }
+        },
+        "type": "object",
+        "title": "LogoutResponse",
+        "description": "Logout response schema."
+      },
+      "PersonalBugRateResponse": {
+        "properties": {
+          "total_bugs": {
+            "type": "integer",
+            "title": "Total Bugs",
+            "description": "Bug总数",
+            "default": 0
+          },
+          "critical_bugs": {
+            "type": "integer",
+            "title": "Critical Bugs",
+            "description": "严重Bug数",
+            "default": 0
+          },
+          "bug_rate": {
+            "type": "number",
+            "title": "Bug Rate",
+            "description": "Bug率",
+            "default": 0.0
+          },
+          "resolved_bugs": {
+            "type": "integer",
+            "title": "Resolved Bugs",
+            "description": "已解决Bug数",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "title": "PersonalBugRateResponse",
+        "description": "Schema for personal bug rate response."
+      },
+      "PersonalCodeStatsResponse": {
+        "properties": {
+          "total_commits": {
+            "type": "integer",
+            "title": "Total Commits",
+            "description": "总提交数",
+            "default": 0
+          },
+          "total_prs": {
+            "type": "integer",
+            "title": "Total Prs",
+            "description": "总PR数",
+            "default": 0
+          },
+          "lines_added": {
+            "type": "integer",
+            "title": "Lines Added",
+            "description": "新增代码行数",
+            "default": 0
+          },
+          "lines_deleted": {
+            "type": "integer",
+            "title": "Lines Deleted",
+            "description": "删除代码行数",
+            "default": 0
+          },
+          "avg_commits_per_day": {
+            "type": "number",
+            "title": "Avg Commits Per Day",
+            "description": "日均提交数",
+            "default": 0.0
+          }
+        },
+        "type": "object",
+        "title": "PersonalCodeStatsResponse",
+        "description": "Schema for personal code statistics response."
+      },
+      "PersonalDashboardResponse": {
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "title": "User Id",
+            "description": "用户ID"
+          },
+          "username": {
+            "type": "string",
+            "title": "Username",
+            "description": "用户名"
+          },
+          "code_summary": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Code Summary",
+            "description": "代码统计汇总"
+          },
+          "token_summary": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Token Summary",
+            "description": "Token使用汇总"
+          },
+          "bug_summary": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Bug Summary",
+            "description": "Bug统计汇总"
+          },
+          "period_days": {
+            "type": "integer",
+            "title": "Period Days",
+            "description": "统计周期天数",
+            "default": 30
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Start Date",
+            "description": "开始日期"
+          },
+          "end_date": {
+            "type": "string",
+            "format": "date",
+            "title": "End Date",
+            "description": "结束日期"
+          }
+        },
+        "type": "object",
+        "required": [
+          "user_id",
+          "username",
+          "start_date",
+          "end_date"
+        ],
+        "title": "PersonalDashboardResponse",
+        "description": "Schema for personal dashboard statistics response."
+      },
+      "PersonalTokenStatsResponse": {
+        "properties": {
+          "total_tokens": {
+            "type": "integer",
+            "title": "Total Tokens",
+            "description": "总Token使用量",
+            "default": 0
+          },
+          "prompt_tokens": {
+            "type": "integer",
+            "title": "Prompt Tokens",
+            "description": "Prompt Token使用量",
+            "default": 0
+          },
+          "completion_tokens": {
+            "type": "integer",
+            "title": "Completion Tokens",
+            "description": "Completion Token使用量",
+            "default": 0
+          },
+          "avg_tokens_per_day": {
+            "type": "number",
+            "title": "Avg Tokens Per Day",
+            "description": "日均Token使用量",
+            "default": 0.0
+          }
+        },
+        "type": "object",
+        "title": "PersonalTokenStatsResponse",
+        "description": "Schema for personal token statistics response."
+      },
+      "ProjectCreate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Name",
+            "description": "项目名称"
+          },
+          "code": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 1,
+            "title": "Code",
+            "description": "项目编号"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "项目描述"
+          },
+          "stage": {
+            "type": "string",
+            "title": "Stage",
+            "description": "项目阶段"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "项目状态",
+            "default": "active"
+          },
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date",
+            "description": "开始日期"
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date",
+            "description": "结束日期"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "code",
+          "stage"
+        ],
+        "title": "ProjectCreate",
+        "description": "Schema for creating a new project."
+      },
+      "ProjectDashboardResponse": {
+        "properties": {
+          "project_id": {
+            "type": "integer",
+            "title": "Project Id",
+            "description": "项目ID"
+          },
+          "project_name": {
+            "type": "string",
+            "title": "Project Name",
+            "description": "项目名称"
+          },
+          "overview": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Overview",
+            "description": "项目概览统计"
+          },
+          "top_contributors": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Top Contributors",
+            "description": "成员活跃度排行"
+          },
+          "bug_summary": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Bug Summary",
+            "description": "Bug趋势摘要"
+          },
+          "period_days": {
+            "type": "integer",
+            "title": "Period Days",
+            "description": "统计周期天数",
+            "default": 30
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Start Date",
+            "description": "开始日期"
+          },
+          "end_date": {
+            "type": "string",
+            "format": "date",
+            "title": "End Date",
+            "description": "结束日期"
+          }
+        },
+        "type": "object",
+        "required": [
+          "project_id",
+          "project_name",
+          "start_date",
+          "end_date"
+        ],
+        "title": "ProjectDashboardResponse",
+        "description": "Schema for project dashboard statistics response."
+      },
+      "ProjectInDB": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Name",
+            "description": "项目名称"
+          },
+          "code": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 1,
+            "title": "Code",
+            "description": "项目编号"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "项目描述"
+          },
+          "stage": {
+            "type": "string",
+            "title": "Stage",
+            "description": "项目阶段"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "项目状态",
+            "default": "active"
+          },
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date",
+            "description": "开始日期"
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date",
+            "description": "结束日期"
+          },
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "manager_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Manager Id"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "code",
+          "stage",
+          "id",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "ProjectInDB",
+        "description": "Schema for project as stored in database."
+      },
+      "ProjectListResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ProjectInDB"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "page": {
+            "type": "integer",
+            "title": "Page"
+          },
+          "page_size": {
+            "type": "integer",
+            "title": "Page Size"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "page_size"
+        ],
+        "title": "ProjectListResponse",
+        "description": "Schema for paginated project list response."
+      },
+      "ProjectMemberCreate": {
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "title": "User Id",
+            "description": "用户ID"
+          },
+          "role": {
+            "type": "string",
+            "title": "Role",
+            "description": "成员角色",
+            "default": "developer"
+          }
+        },
+        "type": "object",
+        "required": [
+          "user_id"
+        ],
+        "title": "ProjectMemberCreate",
+        "description": "Schema for adding a member to a project."
+      },
+      "ProjectMemberListResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ProjectMemberResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "page": {
+            "type": "integer",
+            "title": "Page"
+          },
+          "page_size": {
+            "type": "integer",
+            "title": "Page Size"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "page_size"
+        ],
+        "title": "ProjectMemberListResponse",
+        "description": "Schema for paginated project member list response."
+      },
+      "ProjectMemberResponse": {
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "title": "User Id",
+            "description": "用户ID"
+          },
+          "role": {
+            "type": "string",
+            "title": "Role",
+            "description": "成员角色",
+            "default": "developer"
+          },
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "project_id": {
+            "type": "integer",
+            "title": "Project Id"
+          },
+          "joined_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Joined At"
+          },
+          "username": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Username"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          }
+        },
+        "type": "object",
+        "required": [
+          "user_id",
+          "id",
+          "project_id",
+          "joined_at"
+        ],
+        "title": "ProjectMemberResponse",
+        "description": "Schema for project member response with user details."
+      },
+      "ProjectResponse": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "stage": {
+            "type": "string",
+            "title": "Stage"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date"
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date"
+          },
+          "manager_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Manager Id"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          },
+          "members": {
+            "items": {
+              "$ref": "#/components/schemas/ProjectMemberResponse"
+            },
+            "type": "array",
+            "title": "Members",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "code",
+          "stage",
+          "status",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "ProjectResponse",
+        "description": "Schema for project response."
+      },
+      "ProjectStatsResponse": {
+        "properties": {
+          "project_id": {
+            "type": "integer",
+            "title": "Project Id",
+            "description": "项目ID"
+          },
+          "project_name": {
+            "type": "string",
+            "title": "Project Name",
+            "description": "项目名称"
+          },
+          "total_commits": {
+            "type": "integer",
+            "title": "Total Commits",
+            "description": "总提交数",
+            "default": 0
+          },
+          "total_tokens": {
+            "type": "integer",
+            "title": "Total Tokens",
+            "description": "总Token使用量",
+            "default": 0
+          },
+          "active_members": {
+            "type": "integer",
+            "title": "Active Members",
+            "description": "活跃成员数",
+            "default": 0
+          },
+          "bug_count": {
+            "type": "integer",
+            "title": "Bug Count",
+            "description": "Bug数量",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "required": [
+          "project_id",
+          "project_name"
+        ],
+        "title": "ProjectStatsResponse",
+        "description": "Schema for project statistics response."
+      },
+      "ProjectUpdate": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "code": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 50,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Code"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "stage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stage"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status"
+          },
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date"
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date"
+          }
+        },
+        "type": "object",
+        "title": "ProjectUpdate",
+        "description": "Schema for updating an existing project."
+      },
+      "RefreshTokenRequest": {
+        "properties": {
+          "refresh_token": {
+            "type": "string",
+            "title": "Refresh Token",
+            "description": "刷新令牌"
+          }
+        },
+        "type": "object",
+        "required": [
+          "refresh_token"
+        ],
+        "title": "RefreshTokenRequest",
+        "description": "Refresh token request schema."
+      },
+      "RoleResponse": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id",
+            "description": "角色ID"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "角色名称"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "角色描述"
+          },
+          "permissions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Permissions",
+            "description": "权限列表"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "RoleResponse",
+        "description": "Role response schema."
+      },
+      "SyncGitLabRequest": {
+        "properties": {
+          "project_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Project Id",
+            "description": "项目ID（为空则同步所有项目）"
+          },
+          "sync_type": {
+            "type": "string",
+            "title": "Sync Type",
+            "description": "同步类型: full_sync, incremental_sync",
+            "default": "incremental_sync"
+          },
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date",
+            "description": "开始日期"
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date",
+            "description": "结束日期"
+          }
+        },
+        "type": "object",
+        "title": "SyncGitLabRequest",
+        "description": "Schema for GitLab sync request."
+      },
+      "SyncLogListResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/SyncLogResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "page": {
+            "type": "integer",
+            "title": "Page"
+          },
+          "page_size": {
+            "type": "integer",
+            "title": "Page Size"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "page_size"
+        ],
+        "title": "SyncLogListResponse",
+        "description": "Schema for sync log list response."
+      },
+      "SyncLogResponse": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "task_id": {
+            "type": "integer",
+            "title": "Task Id"
+          },
+          "level": {
+            "type": "string",
+            "title": "Level"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "details": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Details"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "task_id",
+          "level",
+          "message",
+          "created_at"
+        ],
+        "title": "SyncLogResponse",
+        "description": "Schema for sync log response."
+      },
+      "SyncStatusData": {
+        "properties": {
+          "recent_tasks": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Recent Tasks"
+          },
+          "running_tasks": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Running Tasks"
+          },
+          "last_updated": {
+            "type": "string",
+            "title": "Last Updated"
+          }
+        },
+        "type": "object",
+        "required": [
+          "recent_tasks",
+          "running_tasks",
+          "last_updated"
+        ],
+        "title": "SyncStatusData",
+        "description": "Data for sync status response."
+      },
+      "SyncTaskCreateData": {
+        "properties": {
+          "task_id": {
+            "type": "integer",
+            "title": "Task Id",
+            "description": "任务ID"
+          },
+          "source": {
+            "type": "string",
+            "title": "Source",
+            "description": "同步来源"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "任务状态"
+          }
+        },
+        "type": "object",
+        "required": [
+          "task_id",
+          "source",
+          "status"
+        ],
+        "title": "SyncTaskCreateData",
+        "description": "Data for sync task creation response."
+      },
+      "SyncTaskDetailData": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "task_type": {
+            "type": "string",
+            "title": "Task Type"
+          },
+          "source_type": {
+            "type": "string",
+            "title": "Source Type"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "project_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Project Id"
+          },
+          "parent_task_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Task Id"
+          },
+          "started_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          },
+          "completed_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Completed At"
+          },
+          "records_processed": {
+            "type": "integer",
+            "title": "Records Processed",
+            "default": 0
+          },
+          "records_failed": {
+            "type": "integer",
+            "title": "Records Failed",
+            "default": 0
+          },
+          "error_message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Message"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "task_type",
+          "source_type",
+          "status",
+          "created_at"
+        ],
+        "title": "SyncTaskDetailData",
+        "description": "Data for sync task detail response."
+      },
+      "SyncTaskInDB": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "task_type": {
+            "type": "string",
+            "title": "Task Type"
+          },
+          "source_type": {
+            "type": "string",
+            "title": "Source Type"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "project_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Project Id"
+          },
+          "parent_task_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Task Id"
+          },
+          "records_processed": {
+            "type": "integer",
+            "title": "Records Processed",
+            "default": 0
+          },
+          "records_failed": {
+            "type": "integer",
+            "title": "Records Failed",
+            "default": 0
+          },
+          "error_message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Message"
+          },
+          "started_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          },
+          "completed_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Completed At"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "task_type",
+          "source_type",
+          "status",
+          "created_at"
+        ],
+        "title": "SyncTaskInDB",
+        "description": "Schema for sync task in database."
+      },
+      "SyncTaskListData": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/SyncTaskInDB"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "page": {
+            "type": "integer",
+            "title": "Page"
+          },
+          "page_size": {
+            "type": "integer",
+            "title": "Page Size"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "page_size"
+        ],
+        "title": "SyncTaskListData",
+        "description": "Data for sync task list response."
+      },
+      "SyncTraeRequest": {
+        "properties": {
+          "user_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "User Id",
+            "description": "用户ID（为空则同步所有用户）"
+          },
+          "sync_type": {
+            "type": "string",
+            "title": "Sync Type",
+            "description": "同步类型: full_sync, incremental_sync",
+            "default": "incremental_sync"
+          },
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date",
+            "description": "开始日期"
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date",
+            "description": "结束日期"
+          }
+        },
+        "type": "object",
+        "title": "SyncTraeRequest",
+        "description": "Schema for Trae sync request."
+      },
+      "SyncZendaoRequest": {
+        "properties": {
+          "project_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Project Id",
+            "description": "项目ID（为空则同步所有项目）"
+          },
+          "sync_type": {
+            "type": "string",
+            "title": "Sync Type",
+            "description": "同步类型: full_sync, incremental_sync",
+            "default": "incremental_sync"
+          },
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date",
+            "description": "开始日期"
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date",
+            "description": "结束日期"
+          }
+        },
+        "type": "object",
+        "title": "SyncZendaoRequest",
+        "description": "Schema for Zendao sync request."
+      },
+      "TokenRefreshResponse": {
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "title": "Access Token",
+            "description": "访问令牌"
+          },
+          "refresh_token": {
+            "type": "string",
+            "title": "Refresh Token",
+            "description": "刷新令牌"
+          },
+          "token_type": {
+            "type": "string",
+            "title": "Token Type",
+            "description": "令牌类型",
+            "default": "bearer"
+          },
+          "expires_in": {
+            "type": "integer",
+            "title": "Expires In",
+            "description": "过期时间（秒）",
+            "default": 3600
+          }
+        },
+        "type": "object",
+        "required": [
+          "access_token",
+          "refresh_token"
+        ],
+        "title": "TokenRefreshResponse",
+        "description": "Token refresh response schema."
+      },
+      "TokenResponse": {
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "title": "Access Token",
+            "description": "访问令牌"
+          },
+          "token_type": {
+            "type": "string",
+            "title": "Token Type",
+            "description": "令牌类型",
+            "default": "bearer"
+          }
+        },
+        "type": "object",
+        "required": [
+          "access_token"
+        ],
+        "title": "TokenResponse",
+        "description": "Token response schema."
+      },
+      "TokenTrendResponse": {
+        "properties": {
+          "dates": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Dates",
+            "description": "日期列表"
+          },
+          "values": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Values",
+            "description": "Token使用量列表"
+          }
+        },
+        "type": "object",
+        "title": "TokenTrendResponse",
+        "description": "Schema for token usage trend response."
+      },
+      "TopUserResponse": {
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "title": "User Id",
+            "description": "用户ID"
+          },
+          "username": {
+            "type": "string",
+            "title": "Username",
+            "description": "用户名"
+          },
+          "department": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Department",
+            "description": "部门"
+          },
+          "token_count": {
+            "type": "integer",
+            "title": "Token Count",
+            "description": "Token使用量",
+            "default": 0
+          },
+          "commit_count": {
+            "type": "integer",
+            "title": "Commit Count",
+            "description": "提交次数",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "required": [
+          "user_id",
+          "username"
+        ],
+        "title": "TopUserResponse",
+        "description": "Schema for top user response."
+      },
+      "UserCreate": {
+        "properties": {
+          "username": {
+            "type": "string",
+            "title": "Username",
+            "description": "用户名"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email",
+            "description": "邮箱"
+          },
+          "department": {
+            "type": "string",
+            "title": "Department",
+            "description": "部门"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 6,
+            "title": "Password",
+            "description": "密码"
+          },
+          "role_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Role Id",
+            "description": "角色ID"
+          }
+        },
+        "type": "object",
+        "required": [
+          "username",
+          "email",
+          "department",
+          "password"
+        ],
+        "title": "UserCreate",
+        "description": "User creation schema."
+      },
+      "UserResponse": {
+        "properties": {
+          "username": {
+            "type": "string",
+            "title": "Username",
+            "description": "用户名"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email",
+            "description": "邮箱"
+          },
+          "department": {
+            "type": "string",
+            "title": "Department",
+            "description": "部门"
+          },
+          "id": {
+            "type": "integer",
+            "title": "Id",
+            "description": "用户ID"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "description": "是否激活"
+          },
+          "role_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Role Id",
+            "description": "角色ID"
+          },
+          "role": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RoleResponse"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "角色信息"
+          }
+        },
+        "type": "object",
+        "required": [
+          "username",
+          "email",
+          "department",
+          "id",
+          "is_active"
+        ],
+        "title": "UserResponse",
+        "description": "User response schema."
+      },
+      "UserUpdate": {
+        "properties": {
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email",
+            "description": "邮箱"
+          },
+          "department": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Department",
+            "description": "部门"
+          },
+          "is_active": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Active",
+            "description": "是否激活"
+          },
+          "role_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Role Id",
+            "description": "角色ID"
+          }
+        },
+        "type": "object",
+        "title": "UserUpdate",
+        "description": "User update schema."
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "scopes": {},
+            "tokenUrl": "/api/v1/auth/login"
+          }
+        }
+      },
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
